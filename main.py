@@ -122,6 +122,8 @@ def main():
     root.geometry("1280x720")
     root.title("Splash Screen")
     root.option_add('*Dialog.msg.font', 'Helvetica 15')  # Sets dialogue message font
+    root.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
+
     root.mainloop()
 
 
