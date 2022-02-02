@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 """
 This is the where the main loop occurs
 
@@ -56,11 +57,15 @@ class UngradingSimulator:
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event)
         self.testEventButton.pack()
 
+        self.level_up_button=tk.Button(self.frame, text="Level Up test", command=self.levelUp)
+        self.level_up_button.pack()
+
         # Ignore these two they just stop Pycharm from moaning
         self.eventScreen = None
         self.app = None
 
         self.frame.pack()
+        self.user_level=0 #user's level will be automatically 0, they've not learned anything
 
     # Method to call and configure an event (will pick a random one later)
     def event(self):
@@ -72,6 +77,12 @@ class UngradingSimulator:
         event_title = "Professor is dead!"
 
         self.app = Event(self.eventScreen, event_text, event_title)
+
+    # method that when triggered will increase user_level by 1 and notify the user they have levelled up
+    def levelUp(self):
+        self.user_level+=1
+        self.level_up_string="Good job! You have levelled up to level "+str(self.user_level)
+        self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
 
 
 # Options screen
