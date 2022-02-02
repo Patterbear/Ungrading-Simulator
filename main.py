@@ -35,6 +35,7 @@ class Launcher:
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
+        self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = UngradingSimulator(self.startGame)
 
     # Method to open options window
@@ -42,6 +43,7 @@ class Launcher:
         self.optionsScreen = tk.Toplevel(self.master)
         self.optionsScreen.geometry("500x700")
         self.optionsScreen.title("Options")
+        self.optionsScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = OptionsScreen(self.optionsScreen)
 
 
@@ -75,6 +77,7 @@ class UngradingSimulator:
         self.eventScreen = tk.Toplevel(self.master)
         self.eventScreen.geometry("764x480")
         self.eventScreen.title("Event")
+        self.eventScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
 
         event_text = "Your professor was assassinated. You get an extra 10 days to submit."
         event_title = "Professor is dead!"
