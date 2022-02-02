@@ -1,0 +1,9 @@
+- The font for our program is assigned based on the system running the program
+- It is stored in a global variable called 'gameFont'
+- When creating buttons/labels/textboxes etc, add 'font=(gameFont, YOUR FONT SIZE)' to its arguments
+- Font size will need to change based on the window, but do it in multiples of 5 to ensure consistency
+- For message boxes, the font has already been set so don't worry
+- Colour scheme for now is just the default grey, but this can be changed if the client wants
+- The lab computers make the fonts look a little bit grainy but on normal machines it's fine
+
+- Benjamin
