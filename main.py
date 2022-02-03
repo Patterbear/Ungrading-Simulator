@@ -31,7 +31,7 @@ class Launcher:
 
     # Method to open the game window
     def start(self):
-        print("Start Game")
+        #  print("Start Game")
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
@@ -115,7 +115,13 @@ class Event:
         self.eventTextLabel = tk.Label(self.frame, text=event_text, font=(gameFont, 15))
         self.eventTextLabel.pack()
 
+        self.eventQuitButton = tk.Button(self.frame, text="Continue", font=(gameFont, 15), command=self.quit)
+        self.eventQuitButton.pack()
+
         self.frame.pack()
+
+    def quit(self):
+        self.master.destroy()
 
 
 # Main method, Creates the root screen and begins the main loop
