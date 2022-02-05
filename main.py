@@ -1,12 +1,27 @@
 import tkinter as tk
 from tkinter import messagebox
 import platform
+from random import random
 """
 This is the where the main loop occurs
 
 Also contains the splash screen, which has two buttons: Start and options
 Start will launch the game, so everything to do with the sim itself must be in the function it calls.*/
 """
+
+
+class Character:
+    def __init__(self, name="Default Character", avatar=None, gender="Other"):  # Default values included
+        self.name = name
+        self.avatar = avatar  # We can make an avatar class when the character customisation is complete
+        self.gender = gender
+        self.intelligence = round(random(), 2)  # Intelligence begins as random value between 0 and 1
+        self.confidence = 5  # Neutral confidence
+        self.level = 1
+
+    def __str__(self):
+        return "name: " + self.name + ", gender: " + self.gender + ", intelligence: " \
+               + str(self.intelligence) + ", confidence: " + str(self.confidence) + ", level: " + str(self.level)
 
 
 class Launcher:
@@ -32,11 +47,13 @@ class Launcher:
     # Method to open the game window
     def start(self):
         #  print("Start Game")
+        test_character = Character("Test Test", None, "Male")  # Test character
+        print(test_character)
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.app = UngradingSimulator(self.startGame)
+        self.app = UngradingSimulator(self.startGame, test_character)
 
     # Method to open options window
     def options(self):
@@ -50,9 +67,10 @@ class Launcher:
 # The game window/class
 class UngradingSimulator:
     # Constructor method
-    def __init__(self, master):
+    def __init__(self, master, character):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.character = character
 
         self.testLabel = tk.Label(self.frame, text="Ungrading Simulator goes here.", font=(gameFont, 20))
         self.testLabel.pack()
@@ -86,8 +104,10 @@ class UngradingSimulator:
 
     # method that when triggered will increase user_level by 1 and notify the user they have levelled up
     def levelUp(self):
-        self.user_level+=1
-        self.level_up_string="Good job! You have levelled up to level "+str(self.user_level)
+        # self.user_level+=1
+        self.character.level += 1
+        # print(self.character.level)
+        self.level_up_string = "Good job! You have levelled up to level "+str(self.character.level)
         self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
 
 
@@ -126,6 +146,7 @@ class Event:
 
 # Main method, Creates the root screen and begins the main loop
 def main():
+
     root = tk.Tk()
     app = Launcher(root)
     root.geometry("1280x720")
