@@ -1,7 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, PhotoImage
 import platform
-from random import random
+from random import random, choice, randint
+
+
 """
 This is the where the main loop occurs
 
@@ -47,7 +49,7 @@ class Launcher:
     # Method to open the game window
     def start(self):
         #  print("Start Game")
-        test_character = Character("Test Test", None, "Male")  # Test character
+        test_character = Character("Test Test", None, str(choice(['Male', 'Female', 'Other'])))  # Test character
         print(test_character)
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
@@ -72,8 +74,13 @@ class UngradingSimulator:
         self.frame = tk.Frame(self.master)
         self.character = character
 
-        self.testLabel = tk.Label(self.frame, text="Ungrading Simulator goes here.", font=(gameFont, 20))
-        self.testLabel.pack()
+        # self.testLabel = tk.Label(self.frame, text="Ungrading Simulator goes here.", font=(gameFont, 20))
+        # self.testLabel.pack()
+
+        display = tk.PhotoImage(file="assets/black_image.gif")
+        self.display = tk.Label(self.frame, image=display)
+        self.display.image = display
+        self.display.pack()
 
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 20))
         self.testEventButton.pack()
@@ -97,7 +104,7 @@ class UngradingSimulator:
         self.eventScreen.title("Event")
         self.eventScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
 
-        event_text = "Your professor was assassinated. You get an extra 10 days to submit."
+        event_text = "Your professor was assassinated. You get an extra " + str(randint(1, 5)) + "days to submit."
         event_title = "Professor is dead!"
 
         self.app = Event(self.eventScreen, event_text, event_title)
@@ -116,16 +123,26 @@ class OptionsScreen:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.changes = []
 
         self.testLabel = tk.Label(self.frame, text="Options go here.", font=(gameFont, 20))
         self.testLabel.pack()
 
+        self.DoneButton = tk.Button(self.frame, text="Done", font=(gameFont, 20), command=self.done)
+        self.DoneButton.pack()
+
         self.frame.pack()
+
+    def done(self):
+
+        # Saving changes occurs here
+
+        self.master.destroy()
 
 
 # Simple event class, displays event title and text
 class Event:
-    def __init__(self, master, event_text, event_title):
+    def __init__(self, master, event_title, event_text):
         self.master = master
         self.frame = tk.Frame(self.master)
 
