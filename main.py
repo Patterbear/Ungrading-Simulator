@@ -88,11 +88,15 @@ class UngradingSimulator:
         self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.levelUp, font=(gameFont, 20))
         self.level_up_button.pack()
 
-        # Ignore these two they just stop Pycharm from moaning
+        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 20))
+        self.view_character_button.pack()
+
+        # Ignore these they just stop Pycharm from moaning
         self.eventScreen = None
         self.app = None
         self.level_up_string = None
         self.level_up_box = None
+        self.characterScreen = None
 
         self.frame.pack()
         self.user_level = 0  # user's level will be automatically 0, they've not learned anything
@@ -116,6 +120,37 @@ class UngradingSimulator:
         # print(self.character.level)
         self.level_up_string = "Good job! You have levelled up to level "+str(self.character.level)
         self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
+
+    def view_character(self):
+        self.characterScreen = tk.Toplevel(self.master)
+        self.characterScreen.geometry("500x700")
+        self.characterScreen.title(self.character.name)
+        self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
+        self.app = ViewCharacter(self.characterScreen, self.character)
+
+
+# Character profile
+class ViewCharacter:
+    def __init__(self, master, character):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.character = character
+
+        profile_image = tk.PhotoImage(file="assets/default_character.gif")
+        self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+        self.profile_image.image = profile_image
+        self.profile_image.pack()
+
+        self.name_label = tk.Label(self.frame, text="Name: " + self.character.name, font=(gameFont, 20))
+        self.name_label.pack()
+
+        self.gender_label = tk.Label(self.frame, text="Gender: " + self.character.gender, font=(gameFont, 20))
+        self.gender_label.pack()
+
+        self.level_label = tk.Label(self.frame, text="Skill Level: " + str(self.character.level), font=(gameFont, 20))
+        self.level_label.pack()
+
+        self.frame.pack()
 
 
 # Options screen
