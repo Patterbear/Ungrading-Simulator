@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox, PhotoImage
+from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint
 
@@ -26,13 +26,80 @@ class Character:
                + str(self.intelligence) + ", confidence: " + str(self.confidence) + ", level: " + str(self.level)
 
 
+class CreateCharacter:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+
+        self.startGame = None
+        self.app = None
+
+        self.avatar_label = tk.Label(self.frame, text="Avatar:", font=(gameFont, 15))
+        self.avatar_label.grid(column=2, row=1)
+
+        profile_image = tk.PhotoImage(file="assets/default_character.gif")
+        self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+        self.profile_image.image = profile_image
+        self.profile_image.grid(column=2, row=2)
+
+        self.change_avatar_button = tk.Button(self.frame, text="Customise", command=self.customise_avatar, font=(gameFont, 15))
+        self.change_avatar_button.grid(column=2, row=3)
+
+        self.name_label = tk.Label(self.frame, text="Full Name:", font=(gameFont, 15))
+        self.name_label.grid(column=1, row=4)
+
+        name_var = tk.StringVar()
+        self.name_input = tk.Entry(self.frame, font=(gameFont, 20), textvariable=name_var)
+        self.name_input.grid(column=2, row=4)
+
+        self.gender_label = tk.Label(self.frame, text="Gender:", font=(gameFont, 15))
+        self.gender_label.grid(column=1, row=5)
+
+        gender_var = StringVar(self.frame)
+        gender_options = ["Male", "Female", "Other"]
+        gender_var.set(gender_options[2])
+
+        self.gender_input = tk.OptionMenu(self.frame, gender_var, *gender_options)
+        self.gender_input.grid(column=2, row=5)
+
+        tk.Label(self.frame).grid(column=2, row=6)
+
+        self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character(name_var.get(), gender_var.get()), font=(gameFont, 20))
+        self.save_character_button.grid(column=2, row=7)
+
+        self.avatar = profile_image
+
+        self.frame.pack()
+
+    def customise_avatar(self):
+
+        print("Avatar creation.")
+
+        #  AVATAR CUSTOMISATION HERE
+
+        return None
+
+    def save_character(self, name_var, gender_var):
+        # character = Character(name_var.get(), self.profile_image, gender_var.get())
+        character = Character(name_var, self.profile_image, gender_var)  # WHY DOESNT THIS WORK
+        print(character)
+
+        self.startGame = tk.Toplevel(self.master)
+        self.startGame.geometry("1920x1080")
+        self.startGame.title("Ungrading Simulator")
+        self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
+        self.app = UngradingSimulator(self.startGame, character)
+
+
+
 class Launcher:
     # Launcher constructor method
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
 
-        self.start_button = tk.Button(self.frame, text="Start Game", command=self.start, font=(gameFont, 50))
+        # self.start_button = tk.Button(self.frame, text="Start Game", command=self.start, font=(gameFont, 50))
+        self.start_button = tk.Button(self.frame, text="Start Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
 
         self.options_button = tk.Button(self.frame, text="Options", command=self.options, font=(gameFont, 50))
@@ -43,6 +110,7 @@ class Launcher:
         self.optionsScreen = None
         self.app = None
         self.eventScreen = None
+        self.createCharacter = None
 
         self.frame.pack()
 
@@ -56,6 +124,13 @@ class Launcher:
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = UngradingSimulator(self.startGame, test_character)
+
+    def create_character(self):
+        self.createCharacter = tk.Toplevel(self.master)
+        self.createCharacter.geometry("764x480")
+        self.createCharacter.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
+        self.createCharacter.title("Create Character")
+        self.app = CreateCharacter(self.createCharacter)
 
     # Method to open options window
     def options(self):
