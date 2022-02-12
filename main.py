@@ -48,23 +48,23 @@ class CreateCharacter:
         self.name_label = tk.Label(self.frame, text="Full Name:", font=(gameFont, 15))
         self.name_label.grid(column=1, row=4)
 
-        name_var = tk.StringVar()
-        self.name_input = tk.Entry(self.frame, font=(gameFont, 20), textvariable=name_var)
+        self.name_var = tk.StringVar()
+        self.name_input = tk.Entry(self.frame, font=(gameFont, 20), textvariable=self.name_var)
         self.name_input.grid(column=2, row=4)
 
         self.gender_label = tk.Label(self.frame, text="Gender:", font=(gameFont, 15))
         self.gender_label.grid(column=1, row=5)
 
-        gender_var = StringVar(self.frame)
+        self.gender_var = StringVar(self.frame)
         gender_options = ["Male", "Female", "Other"]
-        gender_var.set(gender_options[2])
+        self.gender_var.set(gender_options[2])
 
-        self.gender_input = tk.OptionMenu(self.frame, gender_var, *gender_options)
+        self.gender_input = tk.OptionMenu(self.frame, self.gender_var, *gender_options)
         self.gender_input.grid(column=2, row=5)
 
         tk.Label(self.frame).grid(column=2, row=6)
 
-        self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character(name_var.get(), gender_var.get()), font=(gameFont, 20))
+        self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character, font=(gameFont, 20))
         self.save_character_button.grid(column=2, row=7)
 
         self.avatar = profile_image
@@ -79,9 +79,9 @@ class CreateCharacter:
 
         return None
 
-    def save_character(self, name_var, gender_var):
+    def save_character(self):
         # character = Character(name_var.get(), self.profile_image, gender_var.get())
-        character = Character(name_var, self.profile_image, gender_var)  # WHY DOESNT THIS WORK
+        character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
         print(character)
 
         self.startGame = tk.Toplevel(self.master)
@@ -89,7 +89,6 @@ class CreateCharacter:
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = UngradingSimulator(self.startGame, character)
-
 
 
 class Launcher:
