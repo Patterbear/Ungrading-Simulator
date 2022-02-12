@@ -33,6 +33,7 @@ class CreateCharacter:
 
         self.startGame = None
         self.app = None
+        self.character = None
 
         self.avatar_label = tk.Label(self.frame, text="Avatar:", font=(gameFont, 15))
         self.avatar_label.grid(column=2, row=1)
@@ -81,14 +82,20 @@ class CreateCharacter:
 
     def save_character(self):
         # character = Character(name_var.get(), self.profile_image, gender_var.get())
-        character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
-        print(character)
+        self.character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
+        print(self.character)
 
-        self.startGame = tk.Toplevel(self.master)
-        self.startGame.geometry("1920x1080")
-        self.startGame.title("Ungrading Simulator")
-        self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.app = UngradingSimulator(self.startGame, character)
+        self.master.startGame = tk.Toplevel(self.master)
+        self.master.startGame.geometry("1920x1080")
+        self.master.startGame.title("Ungrading Simulator")
+        self.master.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
+        self.master.app = UngradingSimulator(self.master.startGame, self.character)
+        # self.master.destroy()
+        # self.done()
+
+    def done(self):
+        self.master.destroy()
+
 
 
 class Launcher:
@@ -114,7 +121,7 @@ class Launcher:
         self.frame.pack()
 
     # Method to open the game window
-    def start(self):
+    def start(self, character):
         #  print("Start Game")
         test_character = Character("Test Test", None, str(choice(['Male', 'Female', 'Other'])))  # Test character
         print(test_character)
@@ -122,7 +129,7 @@ class Launcher:
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.app = UngradingSimulator(self.startGame, test_character)
+        self.app = UngradingSimulator(self.startGame, character)
 
     def create_character(self):
         self.createCharacter = tk.Toplevel(self.master)
@@ -182,10 +189,10 @@ class UngradingSimulator:
         self.eventScreen.title("Event")
         self.eventScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
 
-        event_text = "Your professor was assassinated. You get an extra " + str(randint(1, 5)) + "days to submit."
+        event_text = "Your professor was assassinated. You get an extra " + str(randint(1, 5)) + " days to submit."
         event_title = "Professor is dead!"
 
-        self.app = Event(self.eventScreen, event_text, event_title)
+        self.app = Event(self.eventScreen, event_title, event_text)
 
     # method that when triggered will increase user_level by 1 and notify the user they have levelled up
     def levelUp(self):
