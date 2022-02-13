@@ -27,9 +27,10 @@ class Character:
 
 
 class CreateCharacter:
-    def __init__(self, master):
+    def __init__(self, master, parent):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.parent = parent
 
         self.startGame = None
         self.app = None
@@ -85,13 +86,15 @@ class CreateCharacter:
         self.character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
         print(self.character)
 
-        self.master.startGame = tk.Toplevel(self.master)
-        self.master.startGame.geometry("1920x1080")
-        self.master.startGame.title("Ungrading Simulator")
-        self.master.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.master.app = UngradingSimulator(self.master.startGame, self.character)
-        # self.master.destroy()
-        # self.done()
+        """ self.master.startGame = tk.Toplevel(self.parent.startGame)
+        self.parent.startGame.geometry("1920x1080")
+        self.parent.startGame.title("Ungrading Simulator")
+        self.parent.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
+        self.parent.app = UngradingSimulator(self.parent.startGame, self.character)
+        # self.master.destroy()"""
+
+        self.parent.start(self.character)
+        self.done()
 
     def done(self):
         self.master.destroy()
@@ -136,7 +139,7 @@ class Launcher:
         self.createCharacter.geometry("764x480")
         self.createCharacter.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.createCharacter.title("Create Character")
-        self.app = CreateCharacter(self.createCharacter)
+        self.app = CreateCharacter(self.createCharacter, self)
 
     # Method to open options window
     def options(self):
