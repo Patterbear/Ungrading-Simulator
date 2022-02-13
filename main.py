@@ -100,7 +100,6 @@ class CreateCharacter:
         self.master.destroy()
 
 
-
 class Launcher:
     # Launcher constructor method
     def __init__(self, master):
@@ -126,8 +125,8 @@ class Launcher:
     # Method to open the game window
     def start(self, character):
         #  print("Start Game")
-        test_character = Character("Test Test", None, str(choice(['Male', 'Female', 'Other'])))  # Test character
-        print(test_character)
+        # test_character = Character("Test Test", None, str(choice(['Male', 'Female', 'Other'])))  # Test character
+        # print(test_character)
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
@@ -207,7 +206,7 @@ class UngradingSimulator:
 
     def view_character(self):
         self.characterScreen = tk.Toplevel(self.master)
-        self.characterScreen.geometry("500x700")
+        self.characterScreen.geometry("500x450")
         self.characterScreen.title(self.character.name)
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.app = ViewCharacter(self.characterScreen, self.character)
@@ -234,7 +233,15 @@ class ViewCharacter:
         self.level_label = tk.Label(self.frame, text="Skill Level: " + str(self.character.level), font=(gameFont, 20))
         self.level_label.pack()
 
+        tk.Label(self.frame, text="").pack()
+
+        self.done_button = tk.Button(self.frame, text="Done", command=self.done, font=(gameFont, 20))
+        self.done_button.pack()
+
         self.frame.pack()
+
+    def done(self):
+        self.master.destroy()
 
 
 # Options screen
