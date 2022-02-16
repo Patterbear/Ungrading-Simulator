@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint
+import HelpPage
 
 
 """
@@ -10,6 +11,13 @@ This is the where the main loop occurs
 Also contains the splash screen, which has two buttons: Start and options
 Start will launch the game, so everything to do with the sim itself must be in the function it calls.*/
 """
+
+
+class UserGuide:
+    def __init__(self, master):
+
+        HelpPage.main()
+
 
 
 class Character:
@@ -174,12 +182,16 @@ class UngradingSimulator:
         self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 20))
         self.view_character_button.pack()
 
+        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 20))
+        self.user_guide_button.pack()
+
         # Ignore these they just stop Pycharm from moaning
         self.eventScreen = None
         self.app = None
         self.level_up_string = None
         self.level_up_box = None
         self.characterScreen = None
+        self.user_guide_screen = None
 
         self.frame.pack()
         self.user_level = 0  # user's level will be automatically 0, they've not learned anything
@@ -210,6 +222,16 @@ class UngradingSimulator:
         self.characterScreen.title(self.character.name)
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.app = ViewCharacter(self.characterScreen, self.character)
+
+    def user_guide(self):
+        """self.user_guide_screen = tk.Toplevel(self.master)
+        self.user_guide_screen.geometry('900x500')
+        self.user_guide_screen.resizable(0, 0)
+        self.user_guide_screen.title('User Guide')
+        self.user_guide_screen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
+        self.app = UserGuide(self.user_guide_screen)"""
+        HelpPage.main()
+
 
 
 # Character profile
