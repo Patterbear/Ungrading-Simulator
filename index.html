@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-US-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title>Ungrading Simulator</title>
+    <style>
+        body {background-color: rgb(212, 223, 224);}
+        h1   {color: rgb(7, 7, 7);font-weight: 900px;}
+        h2   {color: rgb(0, 0, 0);font-weight: bold;}
+        table,td { border-radius: 25px;  background: #e7eedd;  padding: 20px; border-color: blueviolet; width: 500px;  height: 100px; text-align: center}
+    </style>
+</head>
+<body>
+
+<!-- <h1 style="color:rgb(158, 158, 231);">Submit file for Feedback</h1> -->
+<h1>Submit file for Feedback</h1>
+
+<form action="/action_page.php">
+    <label for="fname">Full name:</label>
+    <input type="text" id="fname" name="fname"><br><br>
+    
+  </form>
+
+<h2>Upload</h2>
+
+<form method ="POST" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    {{form.file()}}
+    {{form.submit()}}
+
+
+</form>
+<br>
+
+<label style="text-align: center;">or</label>
+
+<br> <br> <br>
+
+<table>
+    <tr>
+      <td><img src="/s_home/aps32/Group04/SubmitPage/Files/cloud-png-icon-0.png" alt="Drag and Drop files here" width="500" height="600"></td>
+    </tr>
+</table>
+<br>
+
+
+<h1>Write Submission</h1>
+
+<form action="/action_page.php">
+
+<textarea id="wsub" name="wsub" rows="12" cols="100">
+  
+  </textarea>
+  <br><br>
+
+</form>
+
+
+<form> <label for="sub">Click here to submit</label> <br><input type="submit" value="Submit"></form>
+
+</body>
+</html>
