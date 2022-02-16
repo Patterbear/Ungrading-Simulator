@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
-from random import random, choice, randint
+from random import random, choice, randint, uniform
 #import HelpPage
 
 
@@ -247,12 +247,16 @@ class UngradingSimulator:
     def next_day(self):
         self.day_num+=1
         if self.day_num %5==0:
-            self.character.intelligence+=3
+            intell_inc=round(uniform(1, 4), 2)
+            self.character.intelligence+=intell_inc
+            print(self.character.intelligence)
         if self.day_num%2==0:
             self.character.confidence+=1
+            print(self.character.confidence)
         if self.day_num>self.time_limit:
             self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been 20 days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
+
         self.days_count_string="Day number: "+str(self.day_num)
         self.day_num_label.destroy()
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
@@ -260,7 +264,6 @@ class UngradingSimulator:
 
     def end_of_sim_scores(self):
         pass
-
 
 # Character profile
 class ViewCharacter:
