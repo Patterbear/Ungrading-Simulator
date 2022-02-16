@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint
-import HelpPage
+#import HelpPage
 
 
 """
@@ -33,7 +33,7 @@ class Character:
         return "name: " + self.name + ", gender: " + self.gender + ", intelligence: " \
                + str(self.intelligence) + ", confidence: " + str(self.confidence) + ", level: " + str(self.level)
 
-
+#uk
 class CreateCharacter:
     def __init__(self, master, parent):
         self.master = master
@@ -96,6 +96,8 @@ class CreateCharacter:
 
         """ self.master.startGame = tk.Toplevel(self.parent.startGame)
         self.parent.startGame.geometry("1920x1080")
+   
+
         self.parent.startGame.title("Ungrading Simulator")
         self.parent.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.parent.app = UngradingSimulator(self.parent.startGame, self.character)
@@ -104,7 +106,7 @@ class CreateCharacter:
         self.parent.start(self.character)
         self.done()
 
-    def done(self):
+    def done(   self):
         self.master.destroy()
 
 
@@ -185,6 +187,15 @@ class UngradingSimulator:
         self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 20))
         self.user_guide_button.pack()
 
+
+        self.time_limit=20
+        self.day_num=1
+        self.next_day_button= tk.Button(self.frame, text="Progress to next day", command=self.next_day, font=(gameFont, 20))
+        self.next_day_button.pack()
+        self.days_count_string="Day number: "+str(self.day_num)
+        self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
+        self.day_num_label.pack()
+
         # Ignore these they just stop Pycharm from moaning
         self.eventScreen = None
         self.app = None
@@ -194,7 +205,8 @@ class UngradingSimulator:
         self.user_guide_screen = None
 
         self.frame.pack()
-        self.user_level = 0  # user's level will be automatically 0, they've not learned anything
+
+
 
     # Method to call and configure an event (will pick a random one later)
     def event(self):
@@ -208,7 +220,7 @@ class UngradingSimulator:
 
         self.app = Event(self.eventScreen, event_title, event_text)
 
-    # method that when triggered will increase user_level by 1 and notify the user they have levelled up
+    # method that when triggered will increase user   _level by 1 and notify the user they have levelled up
     def levelUp(self):
         # self.user_level+=1
         self.character.level += 1
@@ -223,7 +235,7 @@ class UngradingSimulator:
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.app = ViewCharacter(self.characterScreen, self.character)
 
-    def user_guide(self):
+    def user_guide(selfotal_days):
         """self.user_guide_screen = tk.Toplevel(self.master)
         self.user_guide_screen.geometry('900x500')
         self.user_guide_screen.resizable(0, 0)
@@ -232,6 +244,22 @@ class UngradingSimulator:
         self.app = UserGuide(self.user_guide_screen)"""
         HelpPage.main()
 
+    def next_day(self):
+        self.day_num+=1
+        if self.day_num %5==0:
+            self.character.intelligence+=3
+        if self.day_num%2==0:
+            self.character.confidence+=1
+        if self.day_num>self.time_limit:
+            self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been 20 days and your Ungrading course has been completed. Press OK to see your score")
+            self.end_of_sim_scores()
+        self.days_count_string="Day number: "+str(self.day_num)
+        self.day_num_label.destroy()
+        self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
+        self.day_num_label.pack()
+
+    def end_of_sim_scores(self):
+        pass
 
 
 # Character profile
@@ -254,6 +282,7 @@ class ViewCharacter:
 
         self.level_label = tk.Label(self.frame, text="Skill Level: " + str(self.character.level), font=(gameFont, 20))
         self.level_label.pack()
+        self.user_level = 0  # user's level will be automatically 0, they've not learned anything
 
         tk.Label(self.frame, text="").pack()
 
