@@ -3,6 +3,7 @@ from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
 #import HelpPage
+import GradeCalculator
 
 
 """
@@ -28,6 +29,7 @@ class Character:
         self.intelligence = round(random(), 2)  # Intelligence begins as random value between 0 and 1
         self.confidence = 5  # Neutral confidence
         self.level = 1
+        self.exp_points=0 #no XP to start
 
     def __str__(self):
         return "name: " + self.name + ", gender: " + self.gender + ", intelligence: " \
@@ -178,7 +180,7 @@ class UngradingSimulator:
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 20))
         self.testEventButton.pack()
 
-        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.levelUp, font=(gameFont, 20))
+        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 20))
         self.level_up_button.pack()
 
         self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 20))
@@ -186,6 +188,11 @@ class UngradingSimulator:
 
         self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 20))
         self.user_guide_button.pack()
+
+        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 20))
+        self.study_button.pack()
+        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 20))
+        self.activity_button.pack()
 
 
         self.time_limit=20
@@ -220,11 +227,19 @@ class UngradingSimulator:
 
         self.app = Event(self.eventScreen, event_title, event_text)
 
-    # method that when triggered will increase user   _level by 1 and notify the user they have levelled up
-    def levelUp(self):
-        # self.user_level+=1
+        #Code to implement: when an event is triggered it will check to see if the days remaining makes it possible to happen
+        #will check days to see if the day value will be negative and then check if it can happen
+        #if self.rand_event.days<0:
+           # if (20-self.day_num)<=self.rand_event_days:
+            #    pass #insert code to prevent event taking place
+           # else:
+            #    self.day_num+=self.rand_event.days
+           #     pass #do event
+
+    # method that when triggered will increase user_level by 1 and notify the user they have levelled up
+    def level_up(self):
         self.character.level += 1
-        # print(self.character.level)
+        self.character.exp_points-=100
         self.level_up_string = "Good job! You have levelled up to level "+str(self.character.level)
         self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
 
@@ -249,10 +264,7 @@ class UngradingSimulator:
         if self.day_num %5==0:
             intell_inc=round(uniform(1, 4), 2)
             self.character.intelligence+=intell_inc
-            print(self.character.intelligence)
-        if self.day_num%2==0:
-            self.character.confidence+=1
-            print(self.character.confidence)
+            #print(self.character.intelligence)
         if self.day_num>self.time_limit:
             self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been 20 days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
@@ -262,8 +274,20 @@ class UngradingSimulator:
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
         self.day_num_label.pack()
 
+    def study(self):
+        self.character.exp_points+=50
+        if self.character.exp_points>=100:
+            self.level_up()
+
+    def activities(self):
+        self.character.exp_points+=20
+        intell_inc = round(random(), 2)
+        self.character.intelligence += intell_inc
+        if self.character.exp_points>=100:
+            self.level_up()
+
     def end_of_sim_scores(self):
-        pass
+        GradeCalculator.main()
 
 # Character profile
 class ViewCharacter:
