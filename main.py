@@ -35,7 +35,7 @@ class Character:
         return "name: " + self.name + ", gender: " + self.gender + ", intelligence: " \
                + str(self.intelligence) + ", confidence: " + str(self.confidence) + ", level: " + str(self.level)
 
-#uk
+
 class CreateCharacter:
     def __init__(self, master, parent):
         self.master = master
@@ -172,39 +172,56 @@ class UngradingSimulator:
         # self.testLabel = tk.Label(self.frame, text="Ungrading Simulator goes here.", font=(gameFont, 20))
         # self.testLabel.pack()
 
+        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
+        self.testEventButton.grid(row=1, column=8)
+
+        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15))
+        #self.level_up_button.pack()
+        self.level_up_button.grid(row=2, column=8)
+
+        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 30))
+        self.view_character_button.grid(column=0, row=0, padx=70)
+
+        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 30))
+        self.user_guide_button.grid(column=0, row=1, padx=70)
+
+        #tk.Label(self.frame, text="          ", font=(gameFont, 300)).grid(column=1, row=0, rowspan=2, columnspan=2)
+
         display = tk.PhotoImage(file="assets/black_image.gif")
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
-        self.display.pack()
+        # self.display.pack()
+        self.display.grid(row=0, column=2, rowspan=4, columnspan=6)
 
-        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
-        self.testEventButton.pack()
+        tk.Label(self.frame, text=" ", font=(gameFont, 40)).grid(column=0, row=7, columnspan=10)
 
-        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15))
-        self.level_up_button.pack()
+        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 35))
+        #self.study_button.pack()
+        self.study_button.grid(column=0, row=8)
 
-        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 15))
-        self.view_character_button.pack()
+        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 35))
+        #self.activity_button.pack()
+        self.activity_button.grid(column=2, row=8)
 
-        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 15))
-        self.user_guide_button.pack()
+        tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=3, row=8, rowspan=1)
 
-        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 15))
-        self.study_button.pack()
-        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 15))
-        self.activity_button.pack()
+        self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, 35))
+        #self.submit_task_button.pack()
+        self.submit_task_button.grid(column=4, row=8)
 
-        self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, 15))
-        self.submit_task_button.pack()
+        tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=0, row=9, columnspan=10)
 
 
         self.time_limit=20
         self.day_num=1
-        self.next_day_button= tk.Button(self.frame, text="Progress to next day", command=self.next_day, font=(gameFont, 15))
-        self.next_day_button.pack()
+
+        self.next_day_button= tk.Button(self.frame, text="Next day", command=self.next_day, font=(gameFont, 35))
+        self.next_day_button.grid(column=8, row=10)
+
         self.days_count_string="Day number: "+str(self.day_num)
-        self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
-        self.day_num_label.pack()
+        self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
+        #self.day_num_label.pack()
+        self.day_num_label.grid(row=0, column=8, sticky='n')
 
         # Ignore these they just stop Pycharm from moaning
         self.eventScreen = None
@@ -214,9 +231,8 @@ class UngradingSimulator:
         self.characterScreen = None
         self.user_guide_screen = None
 
-        self.frame.pack()
-
-
+        #self.frame.pack()
+        self.frame.grid(row=0, column=0, sticky="nsew")
 
     # Method to call and configure an event (will pick a random one later)
     def event(self):
@@ -274,8 +290,10 @@ class UngradingSimulator:
 
         self.days_count_string="Day number: "+str(self.day_num)
         self.day_num_label.destroy()
-        self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
-        self.day_num_label.pack()
+        self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
+        #self.day_num_label.pack()
+        self.day_num_label.grid(row=0, column=8, sticky='n')
+
 
     def study(self):
         self.character.exp_points+=50
