@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
-#import HelpPage
+import HelpPage
 import GradeCalculator
 
 
@@ -287,7 +287,7 @@ class UngradingSimulator:
             self.level_up()
 
     def end_of_sim_scores(self):
-        GradeCalculator.main()
+        GradeCalculator.run()
 
 # Character profile
 class ViewCharacter:
