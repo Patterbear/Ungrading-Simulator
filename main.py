@@ -4,7 +4,7 @@ import platform
 from random import random, choice, randint, uniform
 import HelpPage
 import GradeCalculator
-
+import Submission_File
 
 """
 This is the where the main loop occurs
@@ -177,27 +177,30 @@ class UngradingSimulator:
         self.display.image = display
         self.display.pack()
 
-        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 20))
+        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
         self.testEventButton.pack()
 
-        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 20))
+        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15))
         self.level_up_button.pack()
 
-        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 20))
+        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 15))
         self.view_character_button.pack()
 
-        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 20))
+        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 15))
         self.user_guide_button.pack()
 
-        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 20))
+        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 15))
         self.study_button.pack()
-        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 20))
+        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 15))
         self.activity_button.pack()
+
+        self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, 15))
+        self.submit_task_button.pack()
 
 
         self.time_limit=20
         self.day_num=1
-        self.next_day_button= tk.Button(self.frame, text="Progress to next day", command=self.next_day, font=(gameFont, 20))
+        self.next_day_button= tk.Button(self.frame, text="Progress to next day", command=self.next_day, font=(gameFont, 15))
         self.next_day_button.pack()
         self.days_count_string="Day number: "+str(self.day_num)
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string)
@@ -288,6 +291,9 @@ class UngradingSimulator:
 
     def end_of_sim_scores(self):
         GradeCalculator.run()
+
+    def file_submission(self):
+        Submission_File.run()
 
 # Character profile
 class ViewCharacter:
