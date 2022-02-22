@@ -92,7 +92,6 @@ class CreateCharacter:
         return None
 
     def save_character(self):
-        # character = Character(name_var.get(), self.profile_image, gender_var.get())
         self.character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
         print(self.character)
 
@@ -118,7 +117,6 @@ class Launcher:
         self.master = master
         self.frame = tk.Frame(self.master)
 
-        # self.start_button = tk.Button(self.frame, text="Start Game", command=self.start, font=(gameFont, 50))
         self.start_button = tk.Button(self.frame, text="Start Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
 
@@ -136,9 +134,6 @@ class Launcher:
 
     # Method to open the game window
     def start(self, character):
-        #  print("Start Game")
-        # test_character = Character("Test Test", None, str(choice(['Male', 'Female', 'Other'])))  # Test character
-        # print(test_character)
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
@@ -169,14 +164,11 @@ class UngradingSimulator:
         self.frame = tk.Frame(self.master)
         self.character = character
 
-        # self.testLabel = tk.Label(self.frame, text="Ungrading Simulator goes here.", font=(gameFont, 20))
-        # self.testLabel.pack()
 
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
         self.testEventButton.grid(row=1, column=8)
 
         self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15))
-        #self.level_up_button.pack()
         self.level_up_button.grid(row=2, column=8)
 
         self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 30))
@@ -190,23 +182,19 @@ class UngradingSimulator:
         display = tk.PhotoImage(file="assets/black_image.gif")
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
-        # self.display.pack()
         self.display.grid(row=0, column=2, rowspan=4, columnspan=6)
 
         tk.Label(self.frame, text=" ", font=(gameFont, 40)).grid(column=0, row=7, columnspan=10)
 
         self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 35))
-        #self.study_button.pack()
         self.study_button.grid(column=0, row=8)
 
         self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 35))
-        #self.activity_button.pack()
         self.activity_button.grid(column=2, row=8)
 
         tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=3, row=8, rowspan=1)
 
         self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, 35))
-        #self.submit_task_button.pack()
         self.submit_task_button.grid(column=4, row=8)
 
         tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=0, row=9, columnspan=10)
@@ -220,7 +208,6 @@ class UngradingSimulator:
 
         self.days_count_string="Day number: "+str(self.day_num)
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
-        #self.day_num_label.pack()
         self.day_num_label.grid(row=0, column=8, sticky='n')
 
         # Ignore these they just stop Pycharm from moaning
@@ -231,7 +218,6 @@ class UngradingSimulator:
         self.characterScreen = None
         self.user_guide_screen = None
 
-        #self.frame.pack()
         self.frame.grid(row=0, column=0, sticky="nsew")
 
     # Method to call and configure an event (will pick a random one later)
@@ -283,7 +269,6 @@ class UngradingSimulator:
         if self.day_num %5==0:
             intell_inc=round(uniform(1, 4), 2)
             self.character.intelligence+=intell_inc
-            #print(self.character.intelligence)
         if self.day_num>self.time_limit:
             self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been 20 days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
@@ -291,7 +276,6 @@ class UngradingSimulator:
         self.days_count_string="Day number: "+str(self.day_num)
         self.day_num_label.destroy()
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
-        #self.day_num_label.pack()
         self.day_num_label.grid(row=0, column=8, sticky='n')
 
 
