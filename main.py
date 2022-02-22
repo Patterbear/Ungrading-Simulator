@@ -5,6 +5,7 @@ from random import random, choice, randint, uniform
 import HelpPage
 import GradeCalculator
 import Submission_File
+import CharacterCustomisation.cc
 
 """
 This is the where the main loop occurs
@@ -87,7 +88,7 @@ class CreateCharacter:
 
         print("Avatar creation.")
 
-        #  AVATAR CUSTOMISATION HERE
+        CharacterCustomisation.cc.run()
 
         return None
 
