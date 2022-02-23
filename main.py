@@ -95,11 +95,11 @@ class CreateCharacter:
 
     def customise_avatar(self):
 
-        print("Avatar creation.")
+        #print("Avatar creation.")
 
         CharacterCustomisation.cc.run()
         self.profile_photo = CharacterCustomisation.cc.profile_image_location
-        print(self.profile_photo)
+        #print(self.profile_photo)
 
         #self.profile_image
 

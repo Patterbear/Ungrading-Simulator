@@ -50,11 +50,7 @@ def run():
         MainCanvas.pack()
 
     def confirm_profile():
-        #global profile_image_location
-        print("Your profile has been confrimed!")
-        #profile1_test = Button(maleCanvas, image=profile_image).grid(row=0, column=0)
-        #maleCanvas.pack()
-        #print(profile_image_location)
+        #print("Your profile has been confrimed!")
         root.quit()
         return profile_image_location
 
@@ -81,20 +77,20 @@ def run():
         global current_suit
         current_tie = 3
         current_suit = 1
-        print("Item number is",ITEM)
+        #print("Item number is",ITEM)
 
         if ITEM in range (3,5):
-            print("This is a Tie")
+            #print("This is a Tie")
 
             current_tie = ITEM
 
         if ITEM in range (1,3):
-            print("This is a suit")
+            #print("This is a suit")
 
             current_suit = ITEM
 
         if current_suit == 1 and current_tie == 3:
-            print("SHOWING BLACK SUIT AND BLACK TIE")
+            #print("SHOWING BLACK SUIT AND BLACK TIE")
             black_suit_blue_tie.grid_forget()
             blue_suit_black_tie.grid_forget()
             blue_suit_blue_tie.grid_forget()
@@ -102,7 +98,7 @@ def run():
             profile_image_location = "CharacterCustomisation/allblack.gif"
 
         elif current_suit == 1 and current_tie == 4:
-            print("SHOWING BLACK SUIT AND Blue TIE")
+            #print("SHOWING BLACK SUIT AND Blue TIE")
             blue_suit_blue_tie.grid_forget()
             blue_suit_black_tie.grid_forget()
             black_suit_black_tie.grid_forget()
@@ -110,7 +106,7 @@ def run():
             profile_image_location = "CharacterCustomisation/BlackB-BlueT.gif"
 
         elif current_suit == 2 and current_tie == 4:
-            print("SHOWING BLUE SUIT AND BLUE TIE")
+            #print("SHOWING BLUE SUIT AND BLUE TIE")
             black_suit_black_tie.grid_forget()
             black_suit_blue_tie.grid_forget()
             blue_suit_black_tie.grid_forget()
@@ -118,7 +114,7 @@ def run():
             profile_image_location = "CharacterCustomisation/MaleBlueBlazerBlueTie.gif"
 
         elif current_suit == 2 and current_tie == 3:
-            print("SHOWING BLUE SUIT AND BLACK TIE")
+            #print("SHOWING BLUE SUIT AND BLACK TIE")
             blue_suit_blue_tie.grid_forget()
             black_suit_blue_tie.grid_forget()
             black_suit_black_tie.grid_forget()
@@ -240,18 +236,18 @@ def run():
         current_shirt = 1
         current_hair = 3
         if female_item in range(3, 5):
-            print("This is hair")
+            #print("This is hair")
 
             current_hair = female_item
 
         if female_item in range(1, 3):
-            print("This is a shirt")
+            #print("This is a shirt")
 
             current_shirt = female_item
 
 
         if current_shirt == 1 and current_hair == 3:
-            print("Showing black shir, black hair")
+            #print("Showing black shir, black hair")
             profile2_f.grid_forget()
             profile3_f.grid_forget()
             profile4_f.grid_forget()
@@ -259,7 +255,7 @@ def run():
             profile_image_location = "CharacterCustomisation/BLACKhairblackshirt.gif"
 
         elif current_shirt == 1 and current_hair == 4:
-            print("Showing black shirt, brown hair")
+            #print("Showing black shirt, brown hair")
             profile1_f.grid_forget()
             profile3_f.grid_forget()
             profile4_f.grid_forget()
@@ -267,7 +263,7 @@ def run():
             profile_image_location = "CharacterCustomisation/BrownHair-BlackShirr.gif"
 
         elif current_shirt == 2 and current_hair == 3:
-            print("Showing pink shirt, black hair")
+            #print("Showing pink shirt, black hair")
             profile1_f.grid_forget()
             profile2_f.grid_forget()
             profile4_f.grid_forget()
@@ -275,7 +271,7 @@ def run():
             profile_image_location = "CharacterCustomisation/BlackHair-OrangeShirt.gif"
 
         elif current_shirt == 2 and current_hair == 4:
-            print("Showing pink shirt, brown hair")
+            #print("Showing pink shirt, brown hair")
             profile3_f.grid_forget()
             profile2_f.grid_forget()
             profile1_f.grid_forget()

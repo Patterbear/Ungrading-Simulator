@@ -15,7 +15,9 @@ def run():
     def calculate():
         c_level= int(label1_entry.get())
         skill_level= int(label2_entry.get())
+        #skill_level = 4
         a_completed= int(label3_entry.get())
+        #a_completed = 3
         s_grade= int(label4_entry.get())
         total = (c_level + skill_level + a_completed)
         g_achieved=(total+s_grade+100/10,'%')
@@ -34,9 +36,11 @@ def run():
     label1_entry.place(x=190,y=70)
 
     label2_entry = Entry(root,font="10",width='15',bd='2')
+    #label2_entry = Label(root, font="10", width='15', text="4")
     label2_entry.place(x=190,y=105)
 
     label3_entry = Entry(root,font="10",width='15',bd='2')
+    #label3_entry = Label(root, font="10", width='15', text="3")
     label3_entry.place(x=190,y=140)
 
     label4_entry = Entry(root,font="10",width='15',bd='2')
