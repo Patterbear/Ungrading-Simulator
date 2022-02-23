@@ -6,6 +6,7 @@ import HelpPage
 import GradeCalculator
 import Submission_File
 import CharacterCustomisation.cc
+from PIL import ImageTk, Image
 
 """
 This is the where the main loop occurs
@@ -51,6 +52,7 @@ class CreateCharacter:
         self.avatar_label.grid(column=2, row=1)
 
         profile_image = tk.PhotoImage(file="assets/default_character.gif")
+        #profile_image = tk.PhotoImage(file="CharacterCustomisation/allblack.gif")
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
@@ -80,6 +82,12 @@ class CreateCharacter:
         self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character, font=(gameFont, 20))
         self.save_character_button.grid(column=2, row=7)
 
+        """
+        profile_image_2 = tk.PhotoImage(file="CharacterCustomisation/allblack.gif")
+        self.profile_image_2 = tk.Label(self.frame, image=profile_image_2)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+        self.profile_image_2.image = profile_image
+        self.profile_image_2.grid(column=3, row=0)
+        """
         self.avatar = profile_image
 
         self.frame.pack()
@@ -89,8 +97,24 @@ class CreateCharacter:
         print("Avatar creation.")
 
         CharacterCustomisation.cc.run()
+        profile_photo = CharacterCustomisation.cc.profile_image_location
+        print(profile_photo)
 
-        return None
+        #self.profile_image
+
+        #self.profile_image = tk.PhotoImage(file=profile_photo)
+        #self.profile_image_2 = tk.Label(self.frame, image=profile_image_2)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+        #self.profile_image_2.image = profile_image_2
+        #self.profile_image_2.grid(column=3, row=0)
+
+        profile_image = tk.PhotoImage(file="CharacterCustomisation/allblack.gif")
+        self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+        self.profile_image.image = profile_image
+        self.profile_image.grid(column=2, row=2)
+
+        #self.frame.pack()
+
+        #return profile_photo
 
     def save_character(self):
         self.character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
@@ -108,7 +132,7 @@ class CreateCharacter:
         self.parent.start(self.character)
         self.done()
 
-    def done(   self):
+    def done(self):
         self.master.destroy()
 
 
