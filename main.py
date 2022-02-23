@@ -24,7 +24,7 @@ class UserGuide:
 
 
 class Character:
-    def __init__(self, name="Default Character", avatar=None, gender="Other"):  # Default values included
+    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other"):  # Default values included
         self.name = name
         self.avatar = avatar  # We can make an avatar class when the character customisation is complete
         self.gender = gender
@@ -47,6 +47,7 @@ class CreateCharacter:
         self.startGame = None
         self.app = None
         self.character = None
+        self.profile_photo = None
 
         self.avatar_label = tk.Label(self.frame, text="Avatar:", font=(gameFont, 15))
         self.avatar_label.grid(column=2, row=1)
@@ -97,8 +98,8 @@ class CreateCharacter:
         print("Avatar creation.")
 
         CharacterCustomisation.cc.run()
-        profile_photo = CharacterCustomisation.cc.profile_image_location
-        print(profile_photo)
+        self.profile_photo = CharacterCustomisation.cc.profile_image_location
+        print(self.profile_photo)
 
         #self.profile_image
 
@@ -107,7 +108,7 @@ class CreateCharacter:
         #self.profile_image_2.image = profile_image_2
         #self.profile_image_2.grid(column=3, row=0)
 
-        profile_image = tk.PhotoImage(file="CharacterCustomisation/allblack.gif")
+        profile_image = tk.PhotoImage(file=self.profile_photo)
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
@@ -117,7 +118,7 @@ class CreateCharacter:
         #return profile_photo
 
     def save_character(self):
-        self.character = Character(self.name_var.get(), self.profile_image, self.gender_var.get())  # THIS WORKS 12/02
+        self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
         print(self.character)
 
         """ self.master.startGame = tk.Toplevel(self.parent.startGame)
@@ -329,7 +330,7 @@ class ViewCharacter:
         self.frame = tk.Frame(self.master)
         self.character = character
 
-        profile_image = tk.PhotoImage(file="assets/default_character.gif")
+        profile_image = tk.PhotoImage(file=self.character.avatar)
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
         self.profile_image.pack()
