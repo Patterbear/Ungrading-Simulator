@@ -24,14 +24,16 @@ class UserGuide:
 
 
 class Character:
-    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other"):  # Default values included
+    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=5, level=1, exp_points=0):  # Default values included
         self.name = name
         self.avatar = avatar  # We can make an avatar class when the character customisation is complete
         self.gender = gender
-        self.intelligence = round(random(), 2)  # Intelligence begins as random value between 0 and 1
-        self.confidence = 5  # Neutral confidence
-        self.level = 1
-        self.exp_points=0 #no XP to start
+        self.intelligence = intelligence
+        #self.intelligence = round(random(), 2)  # Intelligence begins as random value between 0 and 1
+        self.confidence = confidence  # Neutral confidence
+        self.level = level
+        #self.exp_points=0 #no XP to start
+        self.exp_points = exp_points
 
     def __str__(self):
         return "name: " + self.name + ", gender: " + self.gender + ", intelligence: " \
@@ -143,8 +145,11 @@ class Launcher:
         self.master = master
         self.frame = tk.Frame(self.master)
 
-        self.start_button = tk.Button(self.frame, text="Start Game", command=self.create_character, font=(gameFont, 50))
+        self.start_button = tk.Button(self.frame, text="New Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
+
+        self.load_button = tk.Button(self.frame, text="Load Game", command=self.load_game, font=(gameFont, 50))
+        self.load_button.pack()
 
         self.options_button = tk.Button(self.frame, text="Options", command=self.options, font=(gameFont, 50))
         self.options_button.pack()
@@ -180,6 +185,23 @@ class Launcher:
         self.optionsScreen.title("Options")
         self.optionsScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = OptionsScreen(self.optionsScreen)
+
+    def load_game(self):
+        # these are hardcoded values to test a load feature
+
+        l_name = "Loaded Name"
+        l_avatar = "CharacterCustomisation/allblack.gif"
+        l_gender = "Other"
+        l_intelligence = 0.7
+        l_confidence = 6
+        l_level = 8
+        l_exp = 85
+
+        loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp)
+        print(loaded_character)
+
+        self.start(loaded_character)
+
 
 
 # The game window/class
