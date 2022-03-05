@@ -164,12 +164,12 @@ class Launcher:
         self.frame.pack()
 
     # Method to open the game window
-    def start(self, character):
+    def start(self, character, time_limit=20, day_num=1):
         self.startGame = tk.Toplevel(self.master)
         self.startGame.geometry("1920x1080")
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.app = UngradingSimulator(self.startGame, character)
+        self.app = UngradingSimulator(self.startGame, character, time_limit, day_num)
 
     def create_character(self):
         self.createCharacter = tk.Toplevel(self.master)
@@ -186,8 +186,10 @@ class Launcher:
         self.optionsScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = OptionsScreen(self.optionsScreen)
 
+    # This method starts a game based on existing values
+    # For now, it gets character and game state info from hardcoded variables
+    # It will be able to get them from a .db file (sqlite3)
     def load_game(self):
-        # these are hardcoded values to test a load feature
 
         l_name = "Loaded Name"
         l_avatar = "CharacterCustomisation/allblack.gif"
@@ -197,21 +199,27 @@ class Launcher:
         l_level = 8
         l_exp = 85
 
+        l_time_limit = 25
+        l_day_num = 16
+
         loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp)
         print(loaded_character)
+        print("Loaded time limit: " + str(l_time_limit))
+        print("Loaded day: " + str(l_day_num))
 
-        self.start(loaded_character)
+        self.start(loaded_character, l_time_limit, l_day_num)
 
 
 
 # The game window/class
 class UngradingSimulator:
     # Constructor method
-    def __init__(self, master, character):
+    def __init__(self, master, character, time_limit=20, day_num=1):
         self.master = master
         self.frame = tk.Frame(self.master)
         self.character = character
-
+        self.time_limit = time_limit
+        self.day_num = day_num
 
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
         self.testEventButton.grid(row=1, column=8)
@@ -248,8 +256,7 @@ class UngradingSimulator:
         tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=0, row=9, columnspan=10)
 
 
-        self.time_limit=20
-        self.day_num=1
+
 
         self.next_day_button= tk.Button(self.frame, text="Next day", command=self.next_day, font=(gameFont, 35))
         self.next_day_button.grid(column=8, row=10)
@@ -318,14 +325,13 @@ class UngradingSimulator:
             intell_inc=round(uniform(1, 4), 2)
             self.character.intelligence+=intell_inc
         if self.day_num>self.time_limit:
-            self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been 20 days and your Ungrading course has been completed. Press OK to see your score")
+            self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been " + str(self.time_limit) + " days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
 
         self.days_count_string="Day number: "+str(self.day_num)
         self.day_num_label.destroy()
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
         self.day_num_label.grid(row=0, column=8, sticky='n')
-
 
     def study(self):
         self.character.exp_points+=50
