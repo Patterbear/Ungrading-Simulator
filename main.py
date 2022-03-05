@@ -24,20 +24,23 @@ class UserGuide:
 
 
 class Character:
-    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=5, level=1, exp_points=0):  # Default values included
+    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=5, level=1, exp_points=0, activities_completed=0, topic_levels=[1, 1, 1, 1]):  # Default values included
         self.name = name
-        self.avatar = avatar  # We can make an avatar class when the character customisation is complete
+        self.avatar = avatar
         self.gender = gender
         self.intelligence = intelligence
-        #self.intelligence = round(random(), 2)  # Intelligence begins as random value between 0 and 1
-        self.confidence = confidence  # Neutral confidence
+        self.confidence = confidence
         self.level = level
-        #self.exp_points=0 #no XP to start
         self.exp_points = exp_points
+        self.activities_completed = activities_completed
+        self.topic_levels = topic_levels
 
     def __str__(self):
         return "name: " + self.name + ", gender: " + self.gender + ", intelligence: " \
-               + str(self.intelligence) + ", confidence: " + str(self.confidence) + ", level: " + str(self.level)
+               + str(self.intelligence) + ", confidence: " + str(self.confidence) + ", level: " + str(self.level)\
+               + "\nTopic 1 Level: " + str(self.topic_levels[0]) + "\nTopic 2 Level: " + str(self.topic_levels[1])\
+               + "\nTopic 3 Level: " + str(self.topic_levels[2]) + "\nTopic 4 Level: " + str(self.topic_levels[3])\
+                + "\nTotal Activities Completed: " + str(self.activities_completed)
 
 
 class CreateCharacter:
@@ -202,7 +205,10 @@ class Launcher:
         l_time_limit = 25
         l_day_num = 16
 
-        loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp)
+        l_activities_completed = 6
+        l_topic_levels = [4, 5, 3, 1]
+
+        loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp, l_activities_completed, l_topic_levels)
         print(loaded_character)
         print("Loaded time limit: " + str(l_time_limit))
         print("Loaded day: " + str(l_day_num))
@@ -272,6 +278,7 @@ class UngradingSimulator:
         self.level_up_box = None
         self.characterScreen = None
         self.user_guide_screen = None
+        self.time_limit_box = None
 
         self.frame.grid(row=0, column=0, sticky="nsew")
 
@@ -310,7 +317,7 @@ class UngradingSimulator:
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.app = ViewCharacter(self.characterScreen, self.character)
 
-    def user_guide(selfotal_days):
+    def user_guide(self):
         """self.user_guide_screen = tk.Toplevel(self.master)
         self.user_guide_screen.geometry('900x500')
         self.user_guide_screen.resizable(0, 0)
