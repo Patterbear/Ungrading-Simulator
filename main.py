@@ -312,7 +312,7 @@ class UngradingSimulator:
 
     def view_character(self):
         self.characterScreen = tk.Toplevel(self.master)
-        self.characterScreen.geometry("500x450")
+        self.characterScreen.geometry("500x480")
         self.characterScreen.title(self.character.name)
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.app = ViewCharacter(self.characterScreen, self.character)
@@ -351,6 +351,7 @@ class UngradingSimulator:
         self.character.intelligence += intell_inc
         if self.character.exp_points>=100:
             self.level_up()
+        self.character.activities_completed += 1
 
     def end_of_sim_scores(self):
         GradeCalculator.run()
@@ -378,7 +379,10 @@ class ViewCharacter:
 
         self.level_label = tk.Label(self.frame, text="Skill Level: " + str(self.character.level), font=(gameFont, 20))
         self.level_label.pack()
-        self.user_level = 0  # user's level will be automatically 0, they've not learned anything
+        #self.user_level = 0  # user's level will be automatically 0, they've not learned anything
+
+        self.activities_label = tk.Label(self.frame, text= "Activities Completed: " + str(self.character.activities_completed), font=(gameFont, 20))
+        self.activities_label.pack()
 
         tk.Label(self.frame, text="").pack()
 
