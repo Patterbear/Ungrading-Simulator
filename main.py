@@ -22,7 +22,6 @@ class UserGuide:
         HelpPage.main()
 
 
-
 class Character:
     def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=5, level=1, exp_points=0, activities_completed=0, topic_levels=[1, 1, 1, 1]):  # Default values included
         self.name = name
@@ -58,7 +57,7 @@ class CreateCharacter:
         self.avatar_label.grid(column=2, row=1)
 
         profile_image = tk.PhotoImage(file="assets/default_character.gif")
-        #profile_image = tk.PhotoImage(file="CharacterCustomisation/allblack.gif")
+        #profile_image = tk.PhotoImage(file=)
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
@@ -124,7 +123,7 @@ class CreateCharacter:
 
     def save_character(self):
         self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
-        print(self.character)
+        #print(self.character)
 
         """ self.master.startGame = tk.Toplevel(self.parent.startGame)
         self.parent.startGame.geometry("1920x1080")
@@ -214,7 +213,6 @@ class Launcher:
         print("Loaded day: " + str(l_day_num))
 
         self.start(loaded_character, l_time_limit, l_day_num)
-
 
 
 # The game window/class
@@ -315,6 +313,11 @@ class UngradingSimulator:
         self.characterScreen.geometry("500x480")
         self.characterScreen.title(self.character.name)
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
+        #print(self.character.avatar)
+
+        if self.character.avatar is None:
+            self.character.avatar = "assets/default_character.gif"
+
         self.app = ViewCharacter(self.characterScreen, self.character)
 
     def user_guide(self):
@@ -366,6 +369,7 @@ class ViewCharacter:
         self.frame = tk.Frame(self.master)
         self.character = character
 
+        #print(self.character.avatar)
         profile_image = tk.PhotoImage(file=self.character.avatar)
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
