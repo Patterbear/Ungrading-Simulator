@@ -4,8 +4,11 @@ from logging import root
 from textwrap import fill
 from tkinter import *
 from turtle import heading
+from main import set_game_font
 
-def run():
+def run(skill_level, total_activities):
+
+    gameFont = set_game_font()
 
     root = tkinter.Toplevel()
     root.title('Grade Calculator')
@@ -24,8 +27,8 @@ def run():
         Label(root, text=total, font='Gamefont 18 bold').place(x=190,y=235)
         Label(root, text=g_achieved, font='Gamefont 18 bold').place(x=190,y=275)
 
-    heading_label = Label(root, text='S E L F  A S S E S S M E N T ', font='Gamefont 18 bold',bg='grey',fg='black').pack()
-    label1 = Label(root, text='C O N F I D E N C E  L E V E L ',font='Gamefont 8 bold').place(x=15,y=70)
+    heading_label = Label(root, text='Self Assessment ', font='Gamefont 18 bold',bg='grey',fg='black').pack()
+    label1 = Label(root, text='Confidence Level ',font='Gamefont 8 bold').place(x=15,y=30)
     label2 = Label(root, text='S K I L L  L E V E L ',font='Gamefont 8 bold').place(x=40,y=105)
     label3 = Label(root, text='C O M P L E T E D  A C T I V I T I E S ',font='Gamefont 8 bold').place(x=1.5,y=140)
     label4 = Label(root, text='S U G G E S T E D  G R A D E  ',font='Gamefont 8 bold').place(x=30,y=195)
@@ -35,12 +38,12 @@ def run():
     label1_entry = Entry(root,font="8",width='15',bd='2')
     label1_entry.place(x=190,y=70)
 
-    label2_entry = Entry(root,font="10",width='15',bd='2')
-    #label2_entry = Label(root, font="10", width='15', text="4")
+    #label2_entry = Entry(root,font="10",width='15',bd='2')
+    label2_entry = Label(root, font="10", width='15', text=str(skill_level))
     label2_entry.place(x=190,y=105)
 
-    label3_entry = Entry(root,font="10",width='15',bd='2')
-    #label3_entry = Label(root, font="10", width='15', text="3")
+    #label3_entry = Entry(root,font="10",width='15',bd='2')
+    label3_entry = Label(root, font="10", width='15', text=str(total_activities))
     label3_entry.place(x=190,y=140)
 
     label4_entry = Entry(root,font="10",width='15',bd='2')
@@ -49,6 +52,6 @@ def run():
     #label5_entry = Entry(root,font="10",width='15',bd='2')
     #label5_entry.place(x=190,y=240)
 
-    calculate_button = Button(root,text='C A L C U L A T E ',font='Gamefont 10 bold',bg='white',fg='black',command=calculate).place(x=50,y=320)
-    exit_button = Button(root,text='E X I T ',font='Gamefont 10 bold',bg='white',fg='black', width= '15',command=exit).place(x=220,y=320)
+    calculate_button = Button(root,text='Calculate ',font=(gameFont, 10),bg='white',fg='black',command=calculate).place(x=50,y=320)
+    exit_button = Button(root,text='Exit ',font='Gamefont 10 bold',bg='white',fg='black', width= '15',command=exit).place(x=220,y=320)
     root.mainloop()

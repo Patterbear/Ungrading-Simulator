@@ -361,7 +361,7 @@ class UngradingSimulator:
         self.character.activities_completed += 1
 
     def end_of_sim_scores(self):
-        GradeCalculator.run()
+        GradeCalculator.run(self.character.level, self.character.activities_completed)
 
     def file_submission(self):
         Submission_File.run()
