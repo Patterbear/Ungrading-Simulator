@@ -6,6 +6,7 @@ import HelpPage
 import GradeCalculator
 import Submission_File
 import CharacterCustomisation.cc
+import Feedback_page
 from PIL import ImageTk, Image
 
 """
@@ -237,6 +238,9 @@ class UngradingSimulator:
         self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 30))
         self.user_guide_button.grid(column=0, row=1, padx=70)
 
+        self.user_guide_button = tk.Button(self.frame, text="Feedback", command=self.feedback, font=(gameFont, 30))
+        self.user_guide_button.grid(column=0, row=2, padx=90)
+
         #tk.Label(self.frame, text="          ", font=(gameFont, 300)).grid(column=1, row=0, rowspan=2, columnspan=2)
 
         display = tk.PhotoImage(file="assets/black_image.gif")
@@ -361,6 +365,9 @@ class UngradingSimulator:
 
     def file_submission(self):
         Submission_File.run()
+
+    def feedback(self):
+        Feedback_page.run()
 
 # Character profile
 class ViewCharacter:
