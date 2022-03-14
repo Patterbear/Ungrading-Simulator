@@ -6,7 +6,17 @@ from tkinter import *
 from turtle import heading
 from main import set_game_font
 
+g_skill_level = 0
+g_total_activities = 0
+
+
 def run(skill_level, total_activities):
+
+    global g_skill_level
+    global g_total_activities
+
+    g_skill_level = skill_level
+    g_total_activities = total_activities
 
     gameFont = set_game_font()
 
@@ -17,12 +27,10 @@ def run(skill_level, total_activities):
 
     def calculate():
         c_level= int(label1_entry.get())
-        skill_level= int(label2_entry.get())
-        #skill_level = 4
-        a_completed= int(label3_entry.get())
-        #a_completed = 3
-        s_grade= int(label4_entry.get())
-        total = (c_level + skill_level + a_completed)
+        skill = g_skill_level
+        a_completed = g_total_activities
+        s_grade = int(label4_entry.get())
+        total = (c_level + skill + a_completed)
         g_achieved=(total+s_grade+100/10,'%')
         Label(root, text=total, font='Gamefont 18 bold').place(x=190,y=235)
         Label(root, text=g_achieved, font='Gamefont 18 bold').place(x=190,y=275)
@@ -38,19 +46,14 @@ def run(skill_level, total_activities):
     label1_entry = Entry(root,font="8",width='15',bd='2')
     label1_entry.place(x=190,y=70)
 
-    #label2_entry = Entry(root,font="10",width='15',bd='2')
     label2_entry = Label(root, font="10", width='15', text=str(skill_level))
     label2_entry.place(x=190,y=105)
 
-    #label3_entry = Entry(root,font="10",width='15',bd='2')
     label3_entry = Label(root, font="10", width='15', text=str(total_activities))
     label3_entry.place(x=190,y=140)
 
     label4_entry = Entry(root,font="10",width='15',bd='2')
     label4_entry.place(x=190,y=195)
-
-    #label5_entry = Entry(root,font="10",width='15',bd='2')
-    #label5_entry.place(x=190,y=240)
 
     calculate_button = Button(root,text='Calculate ',font=(gameFont, 10),bg='white',fg='black',command=calculate).place(x=50,y=320)
     exit_button = Button(root,text='Exit ',font='Gamefont 10 bold',bg='white',fg='black', width= '15',command=exit).place(x=220,y=320)
