@@ -9,13 +9,6 @@ import CharacterCustomisation.cc
 import Feedback_page
 from PIL import ImageTk, Image
 
-"""
-This is the where the main loop occurs
-
-Also contains the splash screen, which has two buttons: Start and options
-Start will launch the game, so everything to do with the sim itself must be in the function it calls.*/
-"""
-
 
 class UserGuide:
     def __init__(self, master):
@@ -58,8 +51,8 @@ class CreateCharacter:
         self.avatar_label.grid(column=2, row=1)
 
         profile_image = tk.PhotoImage(file="assets/default_character.gif")
-        #profile_image = tk.PhotoImage(file=)
-        self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+
+        self.profile_image = tk.Label(self.frame, image=profile_image)
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
 
@@ -88,12 +81,6 @@ class CreateCharacter:
         self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character, font=(gameFont, 20))
         self.save_character_button.grid(column=2, row=7)
 
-        """
-        profile_image_2 = tk.PhotoImage(file="CharacterCustomisation/allblack.gif")
-        self.profile_image_2 = tk.Label(self.frame, image=profile_image_2)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
-        self.profile_image_2.image = profile_image
-        self.profile_image_2.grid(column=3, row=0)
-        """
         self.avatar = profile_image
 
         self.frame.pack()
@@ -104,17 +91,10 @@ class CreateCharacter:
 
         CharacterCustomisation.cc.run()
         self.profile_photo = CharacterCustomisation.cc.profile_image_location
-        #print(self.profile_photo)
 
-        #self.profile_image
-
-        #self.profile_image = tk.PhotoImage(file=profile_photo)
-        #self.profile_image_2 = tk.Label(self.frame, image=profile_image_2)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
-        #self.profile_image_2.image = profile_image_2
-        #self.profile_image_2.grid(column=3, row=0)
 
         profile_image = tk.PhotoImage(file=self.profile_photo)
-        self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
+        self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS HAS BEEN REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
 
@@ -124,16 +104,6 @@ class CreateCharacter:
 
     def save_character(self):
         self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
-        #print(self.character)
-
-        """ self.master.startGame = tk.Toplevel(self.parent.startGame)
-        self.parent.startGame.geometry("1920x1080")
-   
-
-        self.parent.startGame.title("Ungrading Simulator")
-        self.parent.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.parent.app = UngradingSimulator(self.parent.startGame, self.character)
-        # self.master.destroy()"""
 
         self.parent.start(self.character)
         self.done()
@@ -241,8 +211,6 @@ class UngradingSimulator:
         self.user_guide_button = tk.Button(self.frame, text="Feedback", command=self.feedback, font=(gameFont, 30))
         self.user_guide_button.grid(column=0, row=2, padx=90)
 
-        #tk.Label(self.frame, text="          ", font=(gameFont, 300)).grid(column=1, row=0, rowspan=2, columnspan=2)
-
         display = tk.PhotoImage(file="assets/black_image.gif")
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
@@ -317,7 +285,6 @@ class UngradingSimulator:
         self.characterScreen.geometry("500x480")
         self.characterScreen.title(self.character.name)
         self.characterScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
-        #print(self.character.avatar)
 
         if self.character.avatar is None:
             self.character.avatar = "assets/default_character.gif"
@@ -325,12 +292,7 @@ class UngradingSimulator:
         self.app = ViewCharacter(self.characterScreen, self.character)
 
     def user_guide(self):
-        """self.user_guide_screen = tk.Toplevel(self.master)
-        self.user_guide_screen.geometry('900x500')
-        self.user_guide_screen.resizable(0, 0)
-        self.user_guide_screen.title('User Guide')
-        self.user_guide_screen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
-        self.app = UserGuide(self.user_guide_screen)"""
+
         HelpPage.main()
 
     def next_day(self):
@@ -376,7 +338,6 @@ class ViewCharacter:
         self.frame = tk.Frame(self.master)
         self.character = character
 
-        #print(self.character.avatar)
         profile_image = tk.PhotoImage(file=self.character.avatar)
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS WILL BE REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
@@ -390,7 +351,6 @@ class ViewCharacter:
 
         self.level_label = tk.Label(self.frame, text="Skill Level: " + str(self.character.level), font=(gameFont, 20))
         self.level_label.pack()
-        #self.user_level = 0  # user's level will be automatically 0, they've not learned anything
 
         self.activities_label = tk.Label(self.frame, text= "Activities Completed: " + str(self.character.activities_completed), font=(gameFont, 20))
         self.activities_label.pack()
