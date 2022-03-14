@@ -8,6 +8,12 @@ root.title('Study')
 ButtonCanvas = Canvas(root, width=50, height=50)
 ButtonCanvas.grid(row=0, column=0, padx=0)
 
+Content_welcome = Canvas(root, width=1000, height=550, bg="white", bd=1, highlightthickness=1, highlightbackground='black')
+Content_welcome.grid(row=0, column=1, padx=40, pady=0)
+
+Content_welcome.create_text(500,250, text="Welcome to Ungrading", font=('DIN Condensed','25','bold'))
+Content_welcome.create_text(500, 270, text="Description")
+
 
 Content_T1 = Canvas(root, width=1000, height=550, bg="white", bd=1, highlightthickness=1, highlightbackground='black')
 Content_T2 = Canvas(root, width=1000, height=550, bg="white", bd=1, highlightthickness=1, highlightbackground='black')
@@ -23,6 +29,7 @@ def t1():
     Content_T3.grid_forget()
     Content_T4.grid_forget()
     Content_T5.grid_forget()
+    Content_welcome.grid_forget()
 
     Content_T1.create_text(500,20, text="This is topic 1", font=('DIN Condensed','25','bold'))
     Content_T1.create_text(60, 40, text="This is topic 1")
@@ -33,6 +40,7 @@ def t2():
     Content_T3.grid_forget()
     Content_T4.grid_forget()
     Content_T5.grid_forget()
+    Content_welcome.grid_forget()
 
     Content_T2.create_text(500, 20, text="This is topic 2", font=('DIN Condensed', '25', 'bold'))
     Content_T2.create_text(60, 40, text="This is topic 2")
@@ -44,6 +52,7 @@ def t3():
     Content_T3.grid(row=0, column=1, padx=40, pady=0)
     Content_T4.grid_forget()
     Content_T5.grid_forget()
+    Content_welcome.grid_forget()
 
     Content_T3.create_text(500, 20, text="This is topic 3", font=('DIN Condensed', '25', 'bold'))
     Content_T3.create_text(60, 40, text="This is topic 3")
@@ -55,6 +64,7 @@ def t4():
     Content_T3.grid_forget()
     Content_T4.grid(row=0, column=1, padx=40, pady=0)
     Content_T5.grid_forget()
+    Content_welcome.grid_forget()
 
     Content_T4.create_text(500, 20, text="This is topic 4", font=('DIN Condensed', '25', 'bold'))
     Content_T4.create_text(60, 40, text="This is topic 4")
@@ -67,6 +77,7 @@ def t5():
     Content_T3.grid_forget()
     Content_T4.grid_forget()
     Content_T5.grid(row=0, column=1, padx=40, pady=0)
+    Content_welcome.grid_forget()
 
     Content_T5.create_text(500, 20, text="This is topic 5", font=('DIN Condensed', '25', 'bold'))
     Content_T5.create_text(60, 40, text="This is topic 5")
