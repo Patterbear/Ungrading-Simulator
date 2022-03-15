@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
-#import HelpPage
-#import GradeCalculator
-#import Submission_File
-#import CharacterCustomisation.cc
-#import Feedback_page
-#from PIL import ImageTk, Image
+import HelpPage
+import GradeCalculator
+import Submission_File
+import CharacterCustomisation.cc
+import Feedback_page
+from PIL import ImageTk, Image
 import sqlite3
 
 
@@ -109,7 +109,10 @@ class CreateCharacter:
         #save the character into the database
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
-        c.execute("INSERT INTO Characters VALUES(")
+        c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence)
+                  VALUES(?, ?, ?, ?, ?, ?, ?);''', (self.name_var.get(), self.gender_var.get(), self.profile_photo, 0, self.character.level, 0, self.character.intelligence))
+        db.commit()
+        db.close()
 
         self.parent.start(self.character)
         self.done()
@@ -337,6 +340,9 @@ class UngradingSimulator:
     def feedback(self):
         Feedback_page.run()
 
+    def save_exit(self):
+        pass
+
 # Character profile
 class ViewCharacter:
     def __init__(self, master, character):
@@ -455,8 +461,7 @@ if __name__ == "__main__":
     daynumber INT NOT NULL, 
     skilllevel INT NOT NULL, 
     experiencepoints INT NOT NULL, 
-    intelligence FLOAT NOT NULL, 
-    awareness INT NOT NULL);''')
+    intelligence FLOAT NOT NULL);''')
     db.commit()
 
     c.execute('''CREATE TABLE IF NOT EXISTS Topic(
@@ -481,6 +486,16 @@ if __name__ == "__main__":
     FOREIGN KEY (characterid) REFERENCES Characters(id),
     FOREIGN KEY (feedbackid) REFERENCES Feedback(id),
     FOREIGN KEY (topiccode) REFERENCES Topic(id));''')
+
+    try:
+        #insert feedback data here
+    except:
+        pass
+
+    try:
+        #insert activity-topic relationships here
+    except:
+        pass
 
     db.close()
 
