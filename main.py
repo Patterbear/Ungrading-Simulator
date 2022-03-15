@@ -110,7 +110,7 @@ class CreateCharacter:
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
         c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence)
-                  VALUES(?, ?, ?, ?, ?, ?, ?);''', (self.name_var.get(), self.gender_var.get(), self.profile_photo, 0, self.character.level, 0, self.character.intelligence))
+                  VALUES(?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.profile_photo, 0, self.character.level, 0, self.character.intelligence))
         db.commit()
         db.close()
 
@@ -240,6 +240,9 @@ class UngradingSimulator:
 
         tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=0, row=9, columnspan=10)
 
+        self.save_exit_button = tk.Button(self.frame, text="Save and Exit", command=self.save_exit, font=(gameFont, 30))
+        self.save_exit_button.grid(column=0, row=10)
+
 
 
 
@@ -341,7 +344,15 @@ class UngradingSimulator:
         Feedback_page.run()
 
     def save_exit(self):
-        pass
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence)
+                  VALUES(?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.character.avatar, 0, self.character.level, 0, self.character.intelligence))
+        db.commit()
+        db.close()
+
+        self.master.destroy()
+
 
 # Character profile
 class ViewCharacter:
@@ -487,6 +498,7 @@ if __name__ == "__main__":
     FOREIGN KEY (feedbackid) REFERENCES Feedback(id),
     FOREIGN KEY (topiccode) REFERENCES Topic(id));''')
 
+    """
     try:
         #insert feedback data here
     except:
@@ -496,6 +508,8 @@ if __name__ == "__main__":
         #insert activity-topic relationships here
     except:
         pass
+    
+    """
 
     db.close()
 
