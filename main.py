@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
-import HelpPage
-import GradeCalculator
-import Submission_File
-import CharacterCustomisation.cc
-import Feedback_page
-from PIL import ImageTk, Image
+#import HelpPage
+#import GradeCalculator
+#import Submission_File
+#import CharacterCustomisation.cc
+#import Feedback_page
+#from PIL import ImageTk, Image
 import sqlite3
 
 
@@ -105,6 +105,11 @@ class CreateCharacter:
 
     def save_character(self):
         self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
+
+        #save the character into the database
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("INSERT INTO Characters VALUES(")
 
         self.parent.start(self.character)
         self.done()
@@ -443,7 +448,7 @@ if __name__ == "__main__":
 
     # Character database
     c.execute('''CREATE TABLE IF NOT EXISTS Characters(
-    id INT NOT NULL, 
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
     name VARCHAR(30) NOT NULL, 
     gender VARCHAR(30) NOT NULL, 
     photolink VARCHAR(200), 
@@ -451,24 +456,21 @@ if __name__ == "__main__":
     skilllevel INT NOT NULL, 
     experiencepoints INT NOT NULL, 
     intelligence FLOAT NOT NULL, 
-    awareness INT NOT NULL, 
-    PRIMARY KEY (id));''')
+    awareness INT NOT NULL);''')
     db.commit()
 
     c.execute('''CREATE TABLE IF NOT EXISTS Topic(
-    id INT NOT NULL,
-    name VARCHAR(30) NOT NULL,
-    PRIMARY KEY(id));''')
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(30) NOT NULL);''')
     db.commit()
 
     c.execute('''CREATE TABLE IF NOT EXISTS Feedback(
-    id INT NOT NULL,
-    message VARCHAR(200) NOT NULL,
-    PRIMARY KEY(id));''')
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    message VARCHAR(200) NOT NULL);''')
     db.commit()
 
     c.execute('''CREATE TABLE IF NOT EXISTS Activity(
-    id INT NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(30) NOT NULL,
     type CHAR(30) NOT NULL,
     characterid INT NOT NULL,
@@ -478,8 +480,7 @@ if __name__ == "__main__":
     topiccode INT NOT NULL,
     FOREIGN KEY (characterid) REFERENCES Characters(id),
     FOREIGN KEY (feedbackid) REFERENCES Feedback(id),
-    FOREIGN KEY (topiccode) REFERENCES Topic(id),
-    PRIMARY KEY (id));''')
+    FOREIGN KEY (topiccode) REFERENCES Topic(id));''')
 
     db.close()
 
