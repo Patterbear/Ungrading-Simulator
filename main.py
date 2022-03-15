@@ -126,7 +126,7 @@ class Launcher:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
-        self.name_to_load = "Benjamin McGregor"
+        self.name_to_load = "Test Character"
 
         self.start_button = tk.Button(self.frame, text="New Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
@@ -322,15 +322,7 @@ class UngradingSimulator:
 
     def next_day(self):
         self.day_num+=1
-
-        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
-            c = db.cursor()
-
-        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ? 
-        WHERE name = ?''', (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.name))
-
-        db.commit()
-        db.close()
+        self.autosave()
 
         if self.day_num %5==0:
             intell_inc=round(uniform(1, 4), 2)
@@ -349,6 +341,7 @@ class UngradingSimulator:
         self.character.exp_points+=50
         if self.character.exp_points>=100:
             self.level_up()
+        self.autosave()
 
     def activities(self):
         self.character.exp_points+=20
@@ -357,6 +350,7 @@ class UngradingSimulator:
         if self.character.exp_points>=100:
             self.level_up()
         self.character.activities_completed += 1
+        self.autosave()
 
     def end_of_sim_scores(self):
         GradeCalculator.run(self.character.level, self.character.activities_completed)
@@ -379,6 +373,15 @@ class UngradingSimulator:
 
         self.master.destroy()
 
+    def autosave(self):
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+
+        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ? 
+        WHERE name = ?''', (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.name))
+
+        db.commit()
+        db.close()
 
 
 # Character profile
