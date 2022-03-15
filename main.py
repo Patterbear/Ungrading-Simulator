@@ -217,9 +217,17 @@ class LoadScreen:
         c.execute("SELECT * FROM Characters")
         result = c.fetchall()
 
-        for i in range(0, len(result)):
-            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
-            tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
+        if len(result) == 0:
+            tk.Label(self.frame, text="There are no saved games.", font=(gameFont, 30)).grid(column=0, row=0, padx=250)
+            tk.Label(self.frame, text="", font=(gameFont, 10)).grid(column=0, row=1, padx=250)
+            tk.Button(self.frame, text="Back", font=(gameFont, 30), command=self.done).grid(column=0, row=2, padx=250)
+
+        else:
+            for i in range(0, len(result)):
+                tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
+                tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
+            tk.Label(self.frame, text="", font=(gameFont, 10)).grid(column=0, row=i+1)
+            tk.Button(self.frame, text="Back", font=(gameFont, 30), command=self.done).grid(column=0, row=i+2)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
 
@@ -227,6 +235,9 @@ class LoadScreen:
 
         self.master.destroy()
         self.parent.load_game(slot_name)
+
+    def done(self):
+        self.master.destroy()
 
 
 
