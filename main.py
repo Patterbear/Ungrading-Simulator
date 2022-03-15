@@ -346,8 +346,10 @@ class UngradingSimulator:
     def save_exit(self):
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
-        c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence)
-                  VALUES(?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.character.avatar, 0, self.character.level, 0, self.character.intelligence))
+
+        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ? 
+        WHERE name = ?''', (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.name))
+
         db.commit()
         db.close()
 
