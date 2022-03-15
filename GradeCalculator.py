@@ -36,12 +36,12 @@ def run(skill_level, total_activities):
         Label(root, text=g_achieved, font='Gamefont 18 bold').place(x=190,y=275)
 
     heading_label = Label(root, text='Self Assessment ', font='Gamefont 18 bold',bg='grey',fg='black').pack()
-    label1 = Label(root, text='Confidence Level ',font='Gamefont 8 bold').place(x=15,y=30)
-    label2 = Label(root, text='S K I L L  L E V E L ',font='Gamefont 8 bold').place(x=40,y=105)
-    label3 = Label(root, text='C O M P L E T E D  A C T I V I T I E S ',font='Gamefont 8 bold').place(x=1.5,y=140)
-    label4 = Label(root, text='S U G G E S T E D  G R A D E  ',font='Gamefont 8 bold').place(x=30,y=195)
-    label5 = Label(root, text='T O T A L',font='Gamefont 8 bold').place(x=80,y=240)
-    label6 = Label(root, text='G R A D E  A C H I E V E D',font='Gamefont 8 bold',).place(x=40,y=280)
+    label1 = Label(root, text='Confidence Level ',font='Gamefont 8 bold').place(x=50,y=70)
+    label2 = Label(root, text='Skill Level ',font='Gamefont 8 bold').place(x=70,y=105)
+    label3 = Label(root, text='Completed Activities ',font='Gamefont 8 bold').place(x=40,y=140)
+    label4 = Label(root, text='Suggested Grade  ',font='Gamefont 8 bold').place(x=50,y=195)
+    label5 = Label(root, text='Total',font='Gamefont 8 bold').place(x=85,y=240)
+    label6 = Label(root, text='Grade Achieved',font='Gamefont 8 bold',).place(x=55,y=280)
 
     label1_entry = Entry(root,font="8",width='15',bd='2')
     label1_entry.place(x=190,y=70)
