@@ -126,11 +126,12 @@ class Launcher:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.name_to_load = "Benjamin McGregor"
 
         self.start_button = tk.Button(self.frame, text="New Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
 
-        self.load_button = tk.Button(self.frame, text="Load Game", command=self.load_game, font=(gameFont, 50))
+        self.load_button = tk.Button(self.frame, text="Load Game", command=lambda: self.load_game(self.name_to_load), font=(gameFont, 50))
         self.load_button.pack()
 
         self.options_button = tk.Button(self.frame, text="Options", command=self.options, font=(gameFont, 50))
@@ -142,6 +143,7 @@ class Launcher:
         self.app = None
         self.eventScreen = None
         self.createCharacter = None
+
 
         self.frame.pack()
 
@@ -171,26 +173,37 @@ class Launcher:
     # This method starts a game based on existing values
     # For now, it gets character and game state info from hardcoded variables
     # It will be able to get them from a .db file (sqlite3)
-    def load_game(self):
+    def load_game(self, g_name):
+        #print(g_name)
 
-        l_name = "Loaded Name"
-        l_avatar = "CharacterCustomisation/allblack.gif"
-        l_gender = "Other"
-        l_intelligence = 0.7
-        l_confidence = 6
-        l_level = 8
-        l_exp = 85
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("SELECT * FROM Characters WHERE name = ?", (g_name,))
+        result = c.fetchall()[0]
 
-        l_time_limit = 25
-        l_day_num = 16
+        l_name = result[1]
+        l_avatar = result[3]
+        l_gender = result[2]
+        l_intelligence = result[7]
+        l_confidence = 5
+        l_level = result[5]
+        l_exp = result[6]
+
+        l_time_limit = 20
+        l_day_num = result[4]
 
         l_activities_completed = 6
+
+
         l_topic_levels = [4, 5, 3, 1]
 
+
+
+
         loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp, l_activities_completed, l_topic_levels)
-        print(loaded_character)
-        print("Loaded time limit: " + str(l_time_limit))
-        print("Loaded day: " + str(l_day_num))
+        #print(loaded_character)
+        #print("Loaded time limit: " + str(l_time_limit))
+        #print("Loaded day: " + str(l_day_num))
 
         self.start(loaded_character, l_time_limit, l_day_num)
 
@@ -309,6 +322,16 @@ class UngradingSimulator:
 
     def next_day(self):
         self.day_num+=1
+
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+
+        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ? 
+        WHERE name = ?''', (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.name))
+
+        db.commit()
+        db.close()
+
         if self.day_num %5==0:
             intell_inc=round(uniform(1, 4), 2)
             self.character.intelligence+=intell_inc
@@ -320,6 +343,7 @@ class UngradingSimulator:
         self.day_num_label.destroy()
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
         self.day_num_label.grid(row=0, column=8, sticky='n')
+
 
     def study(self):
         self.character.exp_points+=50
@@ -354,6 +378,7 @@ class UngradingSimulator:
         db.close()
 
         self.master.destroy()
+
 
 
 # Character profile
