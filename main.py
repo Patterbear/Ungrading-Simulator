@@ -131,7 +131,8 @@ class Launcher:
         self.start_button = tk.Button(self.frame, text="New Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
 
-        self.load_button = tk.Button(self.frame, text="Load Game", command=lambda: self.load_game(self.name_to_load), font=(gameFont, 50))
+        #self.load_button = tk.Button(self.frame, text="Load Game", command=lambda: self.load_game(self.name_to_load), font=(gameFont, 50))
+        self.load_button = tk.Button(self.frame, text="Load Game", command=self.load_screen, font=(gameFont, 50))
         self.load_button.pack()
 
         self.options_button = tk.Button(self.frame, text="Options", command=self.options, font=(gameFont, 50))
@@ -143,6 +144,7 @@ class Launcher:
         self.app = None
         self.eventScreen = None
         self.createCharacter = None
+        self.loadScreen = None
 
 
         self.frame.pack()
@@ -206,6 +208,41 @@ class Launcher:
         #print("Loaded day: " + str(l_day_num))
 
         self.start(loaded_character, l_time_limit, l_day_num)
+
+    def load_screen(self):
+        self.loadScreen = tk.Toplevel(self.master)
+        self.loadScreen.geometry("825x500")
+        self.loadScreen.title("Load Game")
+        self.loadScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
+        self.app = LoadScreen(self.loadScreen, self)
+
+
+class LoadScreen:
+    def __init__(self, master, parent):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.parent = parent
+        self.save_list = None
+
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("SELECT * FROM Characters")
+        result = c.fetchall()
+        print(result[0])
+
+        for i in range(0, len(result)):
+            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (" + result[i][2] + ")", font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
+            tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
+
+        self.frame.grid(row=0, column=0, sticky="nsew")
+
+    def load_character(self, slot_name):
+        print(slot_name)
+
+        self.parent.load_game(slot_name)
+
+
+
 
 
 # The game window/class
@@ -304,6 +341,7 @@ class UngradingSimulator:
         self.character.exp_points-=100
         self.level_up_string = "Good job! You have levelled up to level "+str(self.character.level)
         self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
+        self.autosave()
 
     def view_character(self):
         self.characterScreen = tk.Toplevel(self.master)
