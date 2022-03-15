@@ -88,8 +88,6 @@ class CreateCharacter:
 
     def customise_avatar(self):
 
-        #print("Avatar creation.")
-
         CharacterCustomisation.cc.run()
         self.profile_photo = CharacterCustomisation.cc.profile_image_location
 
@@ -131,7 +129,6 @@ class Launcher:
         self.start_button = tk.Button(self.frame, text="New Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
 
-        #self.load_button = tk.Button(self.frame, text="Load Game", command=lambda: self.load_game(self.name_to_load), font=(gameFont, 50))
         self.load_button = tk.Button(self.frame, text="Load Game", command=self.load_screen, font=(gameFont, 50))
         self.load_button.pack()
 
@@ -145,7 +142,6 @@ class Launcher:
         self.eventScreen = None
         self.createCharacter = None
         self.loadScreen = None
-
 
         self.frame.pack()
 
@@ -172,11 +168,8 @@ class Launcher:
         self.optionsScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = OptionsScreen(self.optionsScreen)
 
-    # This method starts a game based on existing values
-    # For now, it gets character and game state info from hardcoded variables
-    # It will be able to get them from a .db file (sqlite3)
+    # Method to load a game from a selected save file
     def load_game(self, g_name):
-        #print(g_name)
 
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
@@ -195,28 +188,23 @@ class Launcher:
         l_day_num = result[4]
 
         l_activities_completed = 6
-
-
         l_topic_levels = [4, 5, 3, 1]
 
-
-
-
         loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp, l_activities_completed, l_topic_levels)
-        #print(loaded_character)
-        #print("Loaded time limit: " + str(l_time_limit))
-        #print("Loaded day: " + str(l_day_num))
 
         self.start(loaded_character, l_time_limit, l_day_num)
 
+    # Opens the 'load game' screen
     def load_screen(self):
         self.loadScreen = tk.Toplevel(self.master)
-        self.loadScreen.geometry("825x500")
+        self.loadScreen.geometry("1000x500")
         self.loadScreen.title("Load Game")
         self.loadScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = LoadScreen(self.loadScreen, self)
 
 
+# Class for the load game screen
+# Allows the user to choose an existing save file and continue
 class LoadScreen:
     def __init__(self, master, parent):
         self.master = master
@@ -228,17 +216,16 @@ class LoadScreen:
             c = db.cursor()
         c.execute("SELECT * FROM Characters")
         result = c.fetchall()
-        print(result[0])
 
         for i in range(0, len(result)):
-            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (" + result[i][2] + ")", font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
+            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
             tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
 
     def load_character(self, slot_name):
-        print(slot_name)
 
+        self.master.destroy()
         self.parent.load_game(slot_name)
 
 
@@ -256,10 +243,10 @@ class UngradingSimulator:
         self.day_num = day_num
 
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
-        self.testEventButton.grid(row=1, column=8)
+        #self.testEventButton.grid(row=1, column=8)
 
         self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15))
-        self.level_up_button.grid(row=2, column=8)
+        #self.level_up_button.grid(row=2, column=8)
 
         self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 30))
         self.view_character_button.grid(column=0, row=0, padx=70)
