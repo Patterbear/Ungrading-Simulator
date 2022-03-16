@@ -1,0 +1,8 @@
+- Grade is based on skill level, nothing else. Ungrading not about completing activities. Confidence and activities are not a factor.
+Activities increase confidence.
+- Skill level + random factor is all that determines final grade.
+- The grade you suggest is generated and given by the character - not the user.
+- Awareness determines how close to final grade the character's suggested grade is.
+- Need to be able to restart as a character.
+- Confidence must changed to awareness.
+
