@@ -268,7 +268,8 @@ class UngradingSimulator:
         self.user_guide_button = tk.Button(self.frame, text="Feedback", command=self.feedback, font=(gameFont, int(30*mult)))
         self.user_guide_button.grid(column=0, row=2, padx=90)
 
-        display = tk.PhotoImage(file="assets/black_image.gif")
+        display_file = tk.PhotoImage(file="assets/black_image.gif")
+        display = display_file.subsample(int(1/mult))
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
         self.display.grid(row=0, column=2, rowspan=4, columnspan=6)
