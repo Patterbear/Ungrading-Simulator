@@ -148,7 +148,7 @@ class Launcher:
     # Method to open the game window
     def start(self, character, time_limit=20, day_num=1):
         self.startGame = tk.Toplevel(self.master)
-        self.startGame.geometry("1920x1080")
+        self.startGame.geometry(set_screen_size(self.master))
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = UngradingSimulator(self.startGame, character, time_limit, day_num)
@@ -324,14 +324,6 @@ class UngradingSimulator:
 
         self.app = Event(self.eventScreen, event_title, event_text)
 
-        #Code to implement: when an event is triggered it will check to see if the days remaining makes it possible to happen
-        #will check days to see if the day value will be negative and then check if it can happen
-        #if self.rand_event.days<0:
-           # if (20-self.day_num)<=self.rand_event_days:
-            #    pass #insert code to prevent event taking place
-           # else:
-            #    self.day_num+=self.rand_event.days
-           #     pass #do event
 
     # method that when triggered will increase user_level by 1 and notify the user they have levelled up
     def level_up(self):
@@ -502,13 +494,24 @@ class Event:
 def main():
 
     root = tk.Tk()
+    dimensions= set_screen_size(root)
     app = Launcher(root)
-    root.geometry("1280x720")
+    root.geometry(dimensions)
     root.title("Splash Screen")
     root.option_add('*Dialog.msg.font', 'Helvetica 15')  # Sets dialogue message font
     root.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
 
+
+
     root.mainloop()
+
+# Method to set the screen size of the main window
+def set_screen_size(root):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    return str(screen_width)+"x"+str(screen_height)
+
 
 
 # Method to set the games font based on the OS
@@ -591,6 +594,12 @@ if __name__ == "__main__":
     
     """
     db.close()
+<<<<<<< HEAD
+=======
+
+    #set_screen_size_multiplier()
+
+>>>>>>> da78c606d9ef368cbce4d3da904636654824394b
     global gameFont
     gameFont = set_game_font()
 
