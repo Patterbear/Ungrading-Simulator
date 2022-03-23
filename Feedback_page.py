@@ -25,13 +25,10 @@ def run():
     value_inside = tkinter.StringVar(main)
     value_inside.set("Click to choose a task")
 
-    OptionList = [
-        "Task1",
-        "Task2",
-        "Task3",
-        "Task4"
-    ]
-
+    with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+        c = db.cursor()
+    c.execute("SELECT name, topic FROM Activity;")
+    OptionList=c.fetchall()
     variable = tk.StringVar(main)
     variable.set(OptionList[0])
 
@@ -43,44 +40,48 @@ def run():
 
     #TODO Need to hookup requestFeedback to database so when each day is incremented can check if feedback is due?
     def requestFeedback():
-        z = random.randint(2,7)
-        return messagebox.showinfo("Feedback", "Your feedback on " + value_inside.get() + " will arrive in " + str(z) + " days")
+        return messagebox.showinfo("Feedback", "Your feedback on " + value_inside.get() + " will arrive soon")
 
 
     #TODO Need to implement feedback into database from showFeedback function into Feedback table
     def showFeedback():
 
         p = value_inside.get()
-        print(p)
         if "Click" in p:
             print("got here")
             return messagebox.showinfo("Select Task", "Please select a task")
-
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
-        c.execute("SELECT message FROM Feedback;")
-        result=c.fetchall()
-        print(result)
-
-        myline = random.choice(result)
-       # print(myline)
+        c.execute("SELECT feedback FROM Feedback, Activity WHERE Activity.id=? AND Activity.feedbackid=Feedback.id;", p)
+        myline=c.fetchall()
+        myline=str(myline)
+        if len(myline)==0:
+            c.execute("SELECT message FROM Feedback;")
+            db.commit()
+            result=c.fetchall()
+            myline = random.choice(result)
+            c.execute("SELECT id FROM Feedback WHERE message=?;", myline)
+            db.commit()
+            feedback_id=c.fetchall()
+            c.execute("INSERT INTO Activity (feedbackid) VALUES(?) WHERE id=?;",feedback_id, p)
+            db.commit()
+            myline=str(myline)
         feedback_label = Label(main, text="Feedback", font=font2)
         feedback_label.place(x=40, y=160)
 
         feedback_box = Text(main, height=10, width=80)
         feedback_box.place(x=40, y=180)
-        feedback_box.insert(tk.END, myline)
+        feedback_box.insert(tk.END, myline[2:len(myline)-3])
         feedback_box.configure(state=DISABLED)
 
-        notes_label = Label(main, text="User notes", font=font2)
-        notes_label.place(x=40, y=400)
-
-        notes_box = Text(main, height=10, width=80)
-        notes_box.place(x=40, y=420)
-
         #TODO Add notes feature for students per task? and table for notes in database :)
-        request_btn = Button(main, text='Save notes', fg='Black', width=9, height=1, font=font2, borderwidth=1)
+        request_btn = Button(main, text='Exit', fg='Black', width=9, height=1, font=font2, borderwidth=1, command=close)
         request_btn.place(x=40, y=650)
+
+    def close():
+        db.close()
+        main.destroy()
+
 
 
     request_btn = Button(main, text='Request Feedback', fg='Black', width=15, height=1, font=font2, borderwidth=1, command=requestFeedback)

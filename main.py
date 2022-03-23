@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
-#import HelpPage
-#import GradeCalculator
-#import Submission_File
-#import CharacterCustomisation.cc
+import HelpPage
+import GradeCalculator
+import Submission_File
+import CharacterCustomisation.cc
 import Feedback_page
-#from PIL import ImageTk, Image
+from PIL import ImageTk, Image
 import sqlite3
 
 
@@ -377,6 +377,10 @@ class UngradingSimulator:
         self.character.intelligence += intell_inc
         if self.character.exp_points>=100:
             self.level_up()
+
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        # add the activity to the database here, cannot complete Feedback_page without it
         self.character.activities_completed += 1
         self.autosave()
 
@@ -594,12 +598,12 @@ if __name__ == "__main__":
     
     """
     db.close()
-<<<<<<< HEAD
-=======
-
-    #set_screen_size_multiplier()
-
->>>>>>> da78c606d9ef368cbce4d3da904636654824394b
+# <<<<<<< HEAD
+# =======
+#
+#     #set_screen_size_multiplier()
+#
+# >>>>>>> da78c606d9ef368cbce4d3da904636654824394b
     global gameFont
     gameFont = set_game_font()
 
