@@ -253,19 +253,19 @@ class UngradingSimulator:
         self.time_limit = time_limit
         self.day_num = day_num
 
-        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15))
+        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, 15*mult))
         #self.testEventButton.grid(row=1, column=8)
 
-        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15))
+        self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, 15*mult))
         #self.level_up_button.grid(row=2, column=8)
 
-        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 30))
+        self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, 30*mult))
         self.view_character_button.grid(column=0, row=0, padx=70)
 
-        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 30))
+        self.user_guide_button = tk.Button(self.frame, text="User Guide", command=self.user_guide, font=(gameFont, 30*mult))
         self.user_guide_button.grid(column=0, row=1, padx=70)
 
-        self.user_guide_button = tk.Button(self.frame, text="Feedback", command=self.feedback, font=(gameFont, 30))
+        self.user_guide_button = tk.Button(self.frame, text="Feedback", command=self.feedback, font=(gameFont, 30*mult))
         self.user_guide_button.grid(column=0, row=2, padx=90)
 
         display = tk.PhotoImage(file="assets/black_image.gif")
@@ -275,30 +275,30 @@ class UngradingSimulator:
 
         tk.Label(self.frame, text=" ", font=(gameFont, 40)).grid(column=0, row=7, columnspan=10)
 
-        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 35))
+        self.study_button= tk.Button(self.frame, text="Study", command=self.study, font=(gameFont, 35*mult))
         self.study_button.grid(column=0, row=8)
 
-        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 35))
+        self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, 35*mult))
         self.activity_button.grid(column=2, row=8)
 
         tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=3, row=8, rowspan=1)
 
-        self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, 35))
+        self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, 35*mult))
         self.submit_task_button.grid(column=4, row=8)
 
         tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=0, row=9, columnspan=10)
 
-        self.save_exit_button = tk.Button(self.frame, text="Save and Exit", command=self.save_exit, font=(gameFont, 30))
+        self.save_exit_button = tk.Button(self.frame, text="Save and Exit", command=self.save_exit, font=(gameFont, 30*mult))
         self.save_exit_button.grid(column=0, row=10)
 
 
 
 
-        self.next_day_button= tk.Button(self.frame, text="Next day", command=self.next_day, font=(gameFont, 35))
+        self.next_day_button= tk.Button(self.frame, text="Next day", command=self.next_day, font=(gameFont, 35*mult))
         self.next_day_button.grid(column=8, row=10)
 
         self.days_count_string="Day number: "+str(self.day_num)
-        self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
+        self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35*mult))
         self.day_num_label.grid(row=0, column=8, sticky='n')
 
         # Ignore these they just stop Pycharm from moaning
@@ -533,7 +533,9 @@ def set_multiplier(root):
     #print(str(screen_width / 1920))
     #print(str(screen_height / 1080))
 
-    return ((screen_width / 1920) + (screen_height / 1080)) / 2
+    global mult
+    mult = ((screen_width / 1920) + (screen_height / 1080)) / 2
+
 
 
 # Runs main method
