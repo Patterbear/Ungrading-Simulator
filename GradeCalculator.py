@@ -5,6 +5,7 @@ from textwrap import fill
 from tkinter import *
 from turtle import heading
 from main import set_game_font
+import random
 
 g_skill_level = 0
 g_total_activities = 0
@@ -26,31 +27,30 @@ def run(skill_level, total_activities):
     root.configure(background='light grey')
 
     def calculate():
-        c_level= int(label1_entry.get())
+        #c_level= int(label1_entry.get())
         skill = g_skill_level
         a_completed = g_total_activities
         s_grade = int(label4_entry.get())
-        total = (c_level + skill + a_completed)
-        g_achieved=(total+s_grade+100/10,'%')
-        Label(root, text=total, font='Gamefont 18 bold').place(x=190,y=235)
+        g_achieved= str((g_skill_level*10) + random.randint(0, 6)) + "%"
         Label(root, text=g_achieved, font='Gamefont 18 bold').place(x=190,y=275)
+        Button(root, text='End Game', font=(gameFont, 10), bg='white', fg='black', command=quit).place(x=50, y=320)
 
     heading_label = Label(root, text='Self Assessment ', font='Gamefont 18 bold',bg='grey',fg='black').pack()
-    label1 = Label(root, text='Confidence Level ',font='Gamefont 8 bold').place(x=50,y=70)
+    #label1 = Label(root, text='Confidence Level ',font='Gamefont 8 bold').place(x=50,y=70)
     label2 = Label(root, text='Skill Level ',font='Gamefont 8 bold').place(x=70,y=105)
-    label3 = Label(root, text='Completed Activities ',font='Gamefont 8 bold').place(x=40,y=140)
+    #label3 = Label(root, text='Completed Activities ',font='Gamefont 8 bold').place(x=40,y=140)
     label4 = Label(root, text='Suggested Grade  ',font='Gamefont 8 bold').place(x=50,y=195)
     label5 = Label(root, text='Total',font='Gamefont 8 bold').place(x=85,y=240)
     label6 = Label(root, text='Grade Achieved',font='Gamefont 8 bold',).place(x=55,y=280)
 
-    label1_entry = Entry(root,font="8",width='15',bd='2')
-    label1_entry.place(x=190,y=70)
+    #label1_entry = Entry(root,font="8",width='15',bd='2')
+    #label1_entry.place(x=190,y=70)
 
     label2_entry = Label(root, font="10", width='15', text=str(skill_level))
     label2_entry.place(x=190,y=105)
 
-    label3_entry = Label(root, font="10", width='15', text=str(total_activities))
-    label3_entry.place(x=190,y=140)
+    #label3_entry = Label(root, font="10", width='15', text=str(total_activities))
+    #label3_entry.place(x=190,y=140)
 
     label4_entry = Entry(root,font="10",width='15',bd='2')
     label4_entry.place(x=190,y=195)
