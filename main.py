@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
-#import HelpPage
-#import GradeCalculator
-#import Submission_File
-#import CharacterCustomisation.cc
+import HelpPage
+import GradeCalculator
+import Submission_File
+import CharacterCustomisation.cc
 import Feedback_page
-#from PIL import ImageTk, Image
+from PIL import ImageTk, Image
 import sqlite3
 
 
@@ -494,23 +494,16 @@ class Event:
 def main():
 
     root = tk.Tk()
-    dimensions= set_screen_size(root)
+    print(set_multiplier(root))
+    dimensions = set_screen_size(root)
+    print(dimensions)
     app = Launcher(root)
     root.geometry(dimensions)
     root.title("Splash Screen")
     root.option_add('*Dialog.msg.font', 'Helvetica 15')  # Sets dialogue message font
     root.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
 
-
-
     root.mainloop()
-
-# Method to set the screen size of the main window
-def set_screen_size(root):
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    return str(screen_width)+"x"+str(screen_height)
 
 
 
@@ -524,6 +517,23 @@ def set_game_font():
         return "Segoe UI"
     else:
         return "Arial"  # In case the system cannot be identified
+
+    # Method to set the screen size of the main window
+def set_screen_size(root):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    return str(screen_width)+"x"+str(screen_height)
+
+
+def set_multiplier(root):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    #print(str(screen_width / 1920))
+    #print(str(screen_height / 1080))
+
+    return ((screen_width / 1920) + (screen_height / 1080)) / 2
 
 
 # Runs main method
@@ -594,12 +604,7 @@ if __name__ == "__main__":
     
     """
     db.close()
-<<<<<<< HEAD
-=======
 
-    #set_screen_size_multiplier()
-
->>>>>>> da78c606d9ef368cbce4d3da904636654824394b
     global gameFont
     gameFont = set_game_font()
 
