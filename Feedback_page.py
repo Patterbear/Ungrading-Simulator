@@ -6,6 +6,7 @@ import tkinter as tk
 import tkinter.font as font
 from tkinter import messagebox
 import random
+import sqlite3
 
 
 def run():
@@ -55,22 +56,14 @@ def run():
             print("got here")
             return messagebox.showinfo("Select Task", "Please select a task")
 
-        # def random_line(afile):
-        #     line = next(afile)
-        #     for num, aline in enumerate(afile, 2):
-        #         if random.randrange(num):
-        #             continue
-        #         line = aline
-        #     return line
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("SELECT message FROM Feedback;")
+        result=c.fetchall()
+        print(result)
 
-
-
-        # random_line("Feedbacks.txt")
-
-        lines = open('Feedbacks').read().splitlines()
-        myline = random.choice(lines)
-        print(myline)
-
+        myline = random.choice(result)
+       # print(myline)
         feedback_label = Label(main, text="Feedback", font=font2)
         feedback_label.place(x=40, y=160)
 

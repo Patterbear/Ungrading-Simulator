@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import messagebox, PhotoImage, StringVar
 import platform
 from random import random, choice, randint, uniform
-import HelpPage
-import GradeCalculator
-import Submission_File
-import CharacterCustomisation.cc
+#import HelpPage
+#import GradeCalculator
+#import Submission_File
+#import CharacterCustomisation.cc
 import Feedback_page
-from PIL import ImageTk, Image
+#from PIL import ImageTk, Image
 import sqlite3
 
 
@@ -564,22 +564,33 @@ if __name__ == "__main__":
     FOREIGN KEY (feedbackid) REFERENCES Feedback(id),
     FOREIGN KEY (topiccode) REFERENCES Topic(id));''')
 
-    """
+
     try:
-        #insert feedback data here
+        #Entering feedback information. Will only run once so database is created with all relevant data
+        c.execute("INSERT INTO Feedback (id, message) VALUES (1, 'Student clearly demonstrates their understanding of the learning objectives and has missed no details. Job well done!');")
+        db.commit()
+        c.execute("INSERT INTO Feedback (message) VALUES ('Student has completed the activity well and shows a firm understanding of their work. Watch out for spelling and grammar.');")
+        db.commit()
+        c.execute("INSERT INTO Feedback (message) VALUES ('Student has missed a few questions but the work they have completed is correct and demonstrates their learning of the recent lessons.');")
+        db.commit()
+        c.execute("INSERT INTO Feedback (message) VALUES ('Student has completed all of the questions however has not explained their reasoning. Try to include how you came to your understandings so you can demonstrate your learning.');")
+        db.commit()
+        c.execute("INSERT INTO Feedback (message) VALUES ('Student has definitely put in extra time to learn more about this topic. You have clearly understood the learning objectives for this!');")
+        db.commit()
+        c.execute("INSERT INTO Feedback (message) VALUES ('Student has mostly understood the topic, but is uneasy on a few points. I would recommend some extra study on this topic to develop your understanding further.');")
+        db.commit()
+        c.execute("INSERT INTO Feedback (message) VALUES ('Student should try to answer all the questions for this exercise. Do not be afraid to ask for help when learning about this topic.');")
+        db.commit()
     except:
         pass
-
+    """
     try:
         #insert activity-topic relationships here
     except:
         pass
     
     """
-
     db.close()
-
-
     global gameFont
     gameFont = set_game_font()
 
