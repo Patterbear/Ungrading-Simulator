@@ -11,12 +11,14 @@ from PIL import ImageTk, Image
 import sqlite3
 
 
+# Loads the help page screen
 class UserGuide:
     def __init__(self, master):
 
         HelpPage.main()
 
 
+# Class to represent an in-game character
 class Character:
     def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=5, level=1, exp_points=0, activities_completed=0, topic_levels=[1, 1, 1, 1]):  # Default values included
         self.name = name
@@ -37,18 +39,20 @@ class Character:
                 + "\nTotal Activities Completed: " + str(self.activities_completed)
 
 
+# Class for the character creation screen
 class CreateCharacter:
-    def __init__(self, master, parent):
+    def __init__(self, master, parent, mult):
         self.master = master
         self.frame = tk.Frame(self.master)
         self.parent = parent
+        self.mult = mult
 
         self.startGame = None
         self.app = None
         self.character = None
         self.profile_photo = None
 
-        self.avatar_label = tk.Label(self.frame, text="Avatar:", font=(gameFont, 15))
+        self.avatar_label = tk.Label(self.frame, text="Avatar:", font=(gameFont, int(15*self.mult)))
         self.avatar_label.grid(column=2, row=1)
 
         profile_image = tk.PhotoImage(file="assets/default_character.gif")
@@ -57,17 +61,17 @@ class CreateCharacter:
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
 
-        self.change_avatar_button = tk.Button(self.frame, text="Customise", command=self.customise_avatar, font=(gameFont, 15))
+        self.change_avatar_button = tk.Button(self.frame, text="Customise", command=self.customise_avatar, font=(gameFont, int(15*self.mult)))
         self.change_avatar_button.grid(column=2, row=3)
 
-        self.name_label = tk.Label(self.frame, text="Full Name:", font=(gameFont, 15))
+        self.name_label = tk.Label(self.frame, text="Full Name:", font=(gameFont, int(15*self.mult)))
         self.name_label.grid(column=1, row=4)
 
         self.name_var = tk.StringVar()
-        self.name_input = tk.Entry(self.frame, font=(gameFont, 20), textvariable=self.name_var)
+        self.name_input = tk.Entry(self.frame, font=(gameFont, int(20*self.mult)), textvariable=self.name_var)
         self.name_input.grid(column=2, row=4)
 
-        self.gender_label = tk.Label(self.frame, text="Gender:", font=(gameFont, 15))
+        self.gender_label = tk.Label(self.frame, text="Gender:", font=(gameFont, int(15*self.mult)))
         self.gender_label.grid(column=1, row=5)
 
         self.gender_var = StringVar(self.frame)
@@ -79,7 +83,7 @@ class CreateCharacter:
 
         tk.Label(self.frame).grid(column=2, row=6)
 
-        self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character, font=(gameFont, 20))
+        self.save_character_button = tk.Button(self.frame, text="Done", command=self.save_character, font=(gameFont, int(20*self.mult)))
         self.save_character_button.grid(column=2, row=7)
 
         self.avatar = profile_image
@@ -119,6 +123,7 @@ class CreateCharacter:
         self.master.destroy()
 
 
+# Class to represent the launcher or 'splash' screen.
 class Launcher:
     # Launcher constructor method
     def __init__(self, master):
@@ -158,7 +163,7 @@ class Launcher:
         self.createCharacter.geometry("764x480")
         self.createCharacter.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.createCharacter.title("Create Character")
-        self.app = CreateCharacter(self.createCharacter, self)
+        self.app = CreateCharacter(self.createCharacter, self, set_multiplier(self.master))
 
     # Method to open options window
     def options(self):
@@ -240,9 +245,6 @@ class LoadScreen:
         self.master.destroy()
 
 
-
-
-
 # The game window/class
 class UngradingSimulator:
     # Constructor method
@@ -292,9 +294,6 @@ class UngradingSimulator:
         self.save_exit_button = tk.Button(self.frame, text="Save and Exit", command=self.save_exit, font=(gameFont, int(30*mult)))
         self.save_exit_button.grid(column=0, row=10)
 
-
-
-
         self.next_day_button= tk.Button(self.frame, text="Next day", command=self.next_day, font=(gameFont, int(35*mult)))
         self.next_day_button.grid(column=8, row=10)
 
@@ -324,7 +323,6 @@ class UngradingSimulator:
         event_title = "Professor is dead!"
 
         self.app = Event(self.eventScreen, event_title, event_text)
-
 
     # method that when triggered will increase user_level by 1 and notify the user they have levelled up
     def level_up(self):
@@ -610,6 +608,8 @@ def set_multiplier(root):
 
     global mult
     mult = ((screen_width / 1920) + (screen_height / 1080)) / 2
+
+    return mult
 
 
 # Runs main method
