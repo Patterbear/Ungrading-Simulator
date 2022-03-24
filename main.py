@@ -9,6 +9,7 @@ import CharacterCustomisation.cc
 import Feedback_page
 from PIL import ImageTk, Image
 import sqlite3
+from math import floor
 
 
 # Loads the help page screen
@@ -270,8 +271,11 @@ class UngradingSimulator:
         self.user_guide_button = tk.Button(self.frame, text="Feedback", command=self.feedback, font=(gameFont, int(30*mult)))
         self.user_guide_button.grid(column=0, row=2, padx=90)
 
+        scale_mult = int(floor(mult*10))
+
         display_file = tk.PhotoImage(file="assets/black_image.gif")
-        display = display_file.subsample(int(1/mult))
+        zoom_display = display_file.zoom(scale_mult, scale_mult)
+        display = zoom_display.subsample(10, 10)
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
         self.display.grid(row=0, column=2, rowspan=4, columnspan=6)
@@ -284,12 +288,12 @@ class UngradingSimulator:
         self.activity_button=tk.Button(self.frame, text="Complete Activities", command=self.activities, font=(gameFont, int(35*mult)))
         self.activity_button.grid(column=2, row=8)
 
-        tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=3, row=8, rowspan=1)
+        tk.Label(self.frame, text="    ", font=(gameFont, int(40*mult))).grid(column=3, row=8, rowspan=1)
 
         self.submit_task_button = tk.Button(self.frame, text="Submit Activities", command=self.file_submission, font=(gameFont, int(35*mult)))
         self.submit_task_button.grid(column=4, row=8)
 
-        tk.Label(self.frame, text="    ", font=(gameFont, 40)).grid(column=0, row=9, columnspan=10)
+        tk.Label(self.frame, text="    ", font=(gameFont, int(40*mult))).grid(column=0, row=9, columnspan=10)
 
         self.save_exit_button = tk.Button(self.frame, text="Save and Exit", command=self.save_exit, font=(gameFont, int(30*mult)))
         self.save_exit_button.grid(column=0, row=10)
