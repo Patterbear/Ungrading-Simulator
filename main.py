@@ -499,9 +499,7 @@ class Event:
 def main():
 
     root = tk.Tk()
-    print(set_multiplier(root))
     dimensions = set_screen_size(root)
-    print(dimensions)
     app = Launcher(root)
     root.geometry(dimensions)
     root.title("Splash Screen")
@@ -511,41 +509,7 @@ def main():
     root.mainloop()
 
 
-
-# Method to set the games font based on the OS
-def set_game_font():
-    if platform.system() == "Linux":  # Linux builds
-        return "Helvetica"
-    elif platform.system() == "Darwin":  # MacOS
-        return "Gill Sans"
-    elif platform.system() == "Windows":  # Microsoft Windows
-        return "Segoe UI"
-    else:
-        return "Arial"  # In case the system cannot be identified
-
-    # Method to set the screen size of the main window
-def set_screen_size(root):
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    return str(screen_width)+"x"+str(screen_height)
-
-
-def set_multiplier(root):
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    #print(str(screen_width / 1920))
-    #print(str(screen_height / 1080))
-
-    global mult
-    mult = ((screen_width / 1920) + (screen_height / 1080)) / 2
-
-
-
-# Runs main method
-if __name__ == "__main__":
-
+def db_setup():
     with sqlite3.connect("assets/databases/SaveSlots.db") as db:
         c = db.cursor()
 
@@ -584,22 +548,28 @@ if __name__ == "__main__":
     FOREIGN KEY (feedbackid) REFERENCES Feedback(id),
     FOREIGN KEY (topiccode) REFERENCES Topic(id));''')
 
-
     try:
-        #Entering feedback information. Will only run once so database is created with all relevant data
-        c.execute("INSERT INTO Feedback (id, message) VALUES (1, 'Student clearly demonstrates their understanding of the learning objectives and has missed no details. Job well done!');")
+        # Entering feedback information. Will only run once so database is created with all relevant data
+        c.execute(
+            "INSERT INTO Feedback (id, message) VALUES (1, 'Student clearly demonstrates their understanding of the learning objectives and has missed no details. Job well done!');")
         db.commit()
-        c.execute("INSERT INTO Feedback (message) VALUES ('Student has completed the activity well and shows a firm understanding of their work. Watch out for spelling and grammar.');")
+        c.execute(
+            "INSERT INTO Feedback (message) VALUES ('Student has completed the activity well and shows a firm understanding of their work. Watch out for spelling and grammar.');")
         db.commit()
-        c.execute("INSERT INTO Feedback (message) VALUES ('Student has missed a few questions but the work they have completed is correct and demonstrates their learning of the recent lessons.');")
+        c.execute(
+            "INSERT INTO Feedback (message) VALUES ('Student has missed a few questions but the work they have completed is correct and demonstrates their learning of the recent lessons.');")
         db.commit()
-        c.execute("INSERT INTO Feedback (message) VALUES ('Student has completed all of the questions however has not explained their reasoning. Try to include how you came to your understandings so you can demonstrate your learning.');")
+        c.execute(
+            "INSERT INTO Feedback (message) VALUES ('Student has completed all of the questions however has not explained their reasoning. Try to include how you came to your understandings so you can demonstrate your learning.');")
         db.commit()
-        c.execute("INSERT INTO Feedback (message) VALUES ('Student has definitely put in extra time to learn more about this topic. You have clearly understood the learning objectives for this!');")
+        c.execute(
+            "INSERT INTO Feedback (message) VALUES ('Student has definitely put in extra time to learn more about this topic. You have clearly understood the learning objectives for this!');")
         db.commit()
-        c.execute("INSERT INTO Feedback (message) VALUES ('Student has mostly understood the topic, but is uneasy on a few points. I would recommend some extra study on this topic to develop your understanding further.');")
+        c.execute(
+            "INSERT INTO Feedback (message) VALUES ('Student has mostly understood the topic, but is uneasy on a few points. I would recommend some extra study on this topic to develop your understanding further.');")
         db.commit()
-        c.execute("INSERT INTO Feedback (message) VALUES ('Student should try to answer all the questions for this exercise. Do not be afraid to ask for help when learning about this topic.');")
+        c.execute(
+            "INSERT INTO Feedback (message) VALUES ('Student should try to answer all the questions for this exercise. Do not be afraid to ask for help when learning about this topic.');")
         db.commit()
     except:
         pass
@@ -608,19 +578,45 @@ if __name__ == "__main__":
         #insert activity-topic relationships here
     except:
         pass
-    
+
     """
     db.close()
-<<<<<<< HEAD
-# <<<<<<< HEAD
-# =======
-#
-#     #set_screen_size_multiplier()
-#
-# >>>>>>> da78c606d9ef368cbce4d3da904636654824394b
-=======
 
->>>>>>> df8390cd2fd33b439d61b8d2d218fca514db9dce
+
+# Method to set the games font based on the OS
+def set_game_font():
+    if platform.system() == "Linux":  # Linux builds
+        return "Helvetica"
+    elif platform.system() == "Darwin":  # MacOS
+        return "Gill Sans"
+    elif platform.system() == "Windows":  # Microsoft Windows
+        return "Segoe UI"
+    else:
+        return "Arial"  # In case the system cannot be identified
+
+
+# Method to set the screen size of the main window
+def set_screen_size(root):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    return str(screen_width)+"x"+str(screen_height)
+
+
+# Sets multiplier global to scale widgets and text according to screen size
+def set_multiplier(root):
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+
+    global mult
+    mult = ((screen_width / 1920) + (screen_height / 1080)) / 2
+
+
+# Runs main method
+if __name__ == "__main__":
+
+    db_setup()
+
     global gameFont
     gameFont = set_game_font()
 
