@@ -131,6 +131,7 @@ class Launcher:
         self.master = master
         self.frame = tk.Frame(self.master)
         self.name_to_load = "Test Character"
+        self.mult = set_multiplier(self.master)
 
         self.start_button = tk.Button(self.frame, text="New Game", command=self.create_character, font=(gameFont, 50))
         self.start_button.pack()
@@ -157,7 +158,7 @@ class Launcher:
         self.startGame.geometry(set_screen_size(self.master))
         self.startGame.title("Ungrading Simulator")
         self.startGame.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
-        self.app = UngradingSimulator(self.startGame, character, time_limit, day_num)
+        self.app = UngradingSimulator(self.startGame, self, character, time_limit, day_num)
 
     def create_character(self):
         self.createCharacter = tk.Toplevel(self.master)
@@ -249,14 +250,16 @@ class LoadScreen:
 # The game window/class
 class UngradingSimulator:
     # Constructor method
-    def __init__(self, master, character, time_limit=20, day_num=1):
+    def __init__(self, master, parent, character, time_limit=20, day_num=1):
         self.master = master
         self.frame = tk.Frame(self.master)
         self.character = character
         self.time_limit = time_limit
         self.day_num = day_num
+        self.parent = parent
 
-        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, int(15*mult)))
+
+        self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, int(15*self.parent.mult)))
         #self.testEventButton.grid(row=1, column=8)
 
         self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, int(15*mult)))
@@ -275,7 +278,7 @@ class UngradingSimulator:
 
         display_file = tk.PhotoImage(file="assets/black_image.gif")
         zoom_display = display_file.zoom(scale_mult, scale_mult)
-        display = zoom_display.subsample(10, 10)
+        display = zoom_display.subsample(10, 11)
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
         self.display.grid(row=0, column=2, rowspan=4, columnspan=6)
