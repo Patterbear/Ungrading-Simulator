@@ -352,13 +352,14 @@ class UngradingSimulator:
         HelpPage.main()
 
     def next_day(self):
-        self.day_num+=1
-        self.autosave()
+        if self.day_num != 20:
+            self.day_num+=1
+            self.autosave()
 
         if self.day_num %5==0:
             intell_inc=round(uniform(1, 4), 2)
             self.character.intelligence+=intell_inc
-        if self.day_num>self.time_limit:
+        if self.day_num == self.time_limit:
             self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been " + str(self.time_limit) + " days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
 
@@ -376,7 +377,7 @@ class UngradingSimulator:
 
     def activities(self):
         self.character.exp_points += 20
-        self.character.confidence += 0.1
+        self.character.confidence += 0.05
         intell_inc = round(random(), 2)
         self.character.intelligence += intell_inc
         if self.character.exp_points >= 100:
@@ -391,7 +392,6 @@ class UngradingSimulator:
         self.autosave()
 
     def end_of_sim_scores(self):
-        print(self.character.confidence)
         GradeCalculator.run(self.character.avatar, self.character.level, self.character.activities_completed, self.character.confidence)
 
     def file_submission(self):
@@ -412,9 +412,6 @@ class UngradingSimulator:
         self.master.destroy()
 
     def autosave(self):
-        print(self.day_num)
-        print(self.character.confidence)
-        print("AUTOSAVE")
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
 
