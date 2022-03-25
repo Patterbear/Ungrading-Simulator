@@ -21,7 +21,7 @@ class UserGuide:
 
 # Class to represent an in-game character
 class Character:
-    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=5, level=1, exp_points=0, activities_completed=0, topic_levels=[1, 1, 1, 1]):  # Default values included
+    def __init__(self, name="Default Character", avatar="assets/default_character.gif", gender="Other", intelligence=round(random(), 2), confidence=0.5, level=1, exp_points=0, activities_completed=0, topic_levels=[1, 1, 1, 1]):  # Default values included
         self.name = name
         self.avatar = avatar
         self.gender = gender
@@ -96,24 +96,19 @@ class CreateCharacter:
         CharacterCustomisation.cc.run()
         self.profile_photo = CharacterCustomisation.cc.profile_image_location
 
-
         profile_image = tk.PhotoImage(file=self.profile_photo)
         self.profile_image = tk.Label(self.frame, image=profile_image)  # THIS HAS BEEN REPLACED BY THE CUSTOM PICTURE
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
 
-        #self.frame.pack()
-
-        #return profile_photo
-
     def save_character(self):
         self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
 
-        #save the character into the database
+        # save the character into the database
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
-        c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence)
-                  VALUES(?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.profile_photo, 0, self.character.level, 0, self.character.intelligence))
+        c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence, confidence)
+                          VALUES(?, ?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.profile_photo, 0, self.character.level, 0, self.character.intelligence, 0.5))
         db.commit()
         db.close()
 
@@ -187,12 +182,14 @@ class Launcher:
         l_avatar = result[3]
         l_gender = result[2]
         l_intelligence = result[7]
-        l_confidence = 5
+        l_confidence = result[8]
         l_level = result[5]
         l_exp = result[6]
 
         l_time_limit = 20
         l_day_num = result[4]
+        #print(l_day_num)
+        #print(l_confidence)
 
         l_activities_completed = 6
         l_topic_levels = [4, 5, 3, 1]
@@ -278,7 +275,7 @@ class UngradingSimulator:
 
         display_file = tk.PhotoImage(file="assets/black_image.gif")
         zoom_display = display_file.zoom(scale_mult, scale_mult)
-        display = zoom_display.subsample(10, 11)
+        display = zoom_display.subsample(9, 11)
         self.display = tk.Label(self.frame, image=display)
         self.display.image = display
         self.display.grid(row=0, column=2, rowspan=4, columnspan=6)
@@ -378,20 +375,24 @@ class UngradingSimulator:
         self.autosave()
 
     def activities(self):
-        self.character.exp_points+=20
+        self.character.exp_points += 20
+        self.character.confidence += 0.1
         intell_inc = round(random(), 2)
         self.character.intelligence += intell_inc
-        if self.character.exp_points>=100:
+        if self.character.exp_points >= 100:
             self.level_up()
 
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
         # add the activity to the database here, cannot complete Feedback_page without it
+            db.commit()
+            db.close()
         self.character.activities_completed += 1
         self.autosave()
 
     def end_of_sim_scores(self):
-        GradeCalculator.run(self.character.level, self.character.activities_completed)
+        print(self.character.confidence)
+        GradeCalculator.run(self.character.avatar, self.character.level, self.character.activities_completed, self.character.confidence)
 
     def file_submission(self):
         Submission_File.run()
@@ -402,9 +403,8 @@ class UngradingSimulator:
     def save_exit(self):
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
-
-        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ? 
-        WHERE name = ?''', (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.name))
+        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ?, confidence = ? WHERE name = ?''', (
+        self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.confidence, self.character.name))
 
         db.commit()
         db.close()
@@ -412,11 +412,14 @@ class UngradingSimulator:
         self.master.destroy()
 
     def autosave(self):
+        print(self.day_num)
+        print(self.character.confidence)
+        print("AUTOSAVE")
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
 
-        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ? 
-        WHERE name = ?''', (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.name))
+        c.execute('''UPDATE Characters SET daynumber = ?, skilllevel = ?, experiencepoints = ?, intelligence = ?, confidence = ? WHERE name = ?''',
+        (self.day_num, self.character.level, self.character.exp_points, self.character.intelligence, self.character.confidence, self.character.name))
 
         db.commit()
         db.close()
@@ -527,7 +530,8 @@ def db_setup():
     daynumber INT NOT NULL, 
     skilllevel INT NOT NULL, 
     experiencepoints INT NOT NULL, 
-    intelligence FLOAT NOT NULL);''')
+    intelligence FLOAT NOT NULL,
+    confidence FLOAT NOT NULL);''')
     db.commit()
 
     c.execute('''CREATE TABLE IF NOT EXISTS Topic(
