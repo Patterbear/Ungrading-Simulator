@@ -7,9 +7,10 @@ import GradeCalculator
 import Submission_File
 import CharacterCustomisation.cc
 import Feedback_page
-from PIL import ImageTk, Image
+#from PIL import ImageTk, Image
 import sqlite3
 from math import floor
+import testing.grade_calculator_tests
 
 
 # Loads the help page screen
@@ -415,7 +416,9 @@ class UngradingSimulator:
         self.autosave()
 
     def end_of_sim_scores(self):
-        GradeCalculator.run(self.character.avatar, self.character.level, self.character.activities_completed, self.character.confidence)
+        self.master.destroy()
+
+        GradeCalculator.run(self.character.avatar, self.character.level, self.character.confidence)
 
     def file_submission(self):
         Submission_File.run()
@@ -643,6 +646,15 @@ def set_multiplier(root):
     return mult
 
 
+# Testing function for the grade calculator
+def grade_calculator_testing():
+    testing.grade_calculator_tests.test_1()
+    testing.grade_calculator_tests.test_2()
+    testing.grade_calculator_tests.test_3()
+    testing.grade_calculator_tests.test_4()
+    testing.grade_calculator_tests.test_5()
+
+
 # Runs main method
 if __name__ == "__main__":
 
@@ -652,3 +664,5 @@ if __name__ == "__main__":
     gameFont = set_game_font()
 
     main()
+
+    grade_calculator_testing()
