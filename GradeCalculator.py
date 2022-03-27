@@ -13,15 +13,13 @@ g_skill_level = 0
 g_total_activities = 0
 
 
-def run(avatar, skill_level, total_activities, awareness):
+def run(avatar, skill_level, awareness):
 
     global g_skill_level
-    global g_total_activities
     global g_avatar
     global g_awareness
 
     g_skill_level = skill_level
-    g_total_activities = total_activities
     g_awareness = awareness
 
     if avatar is None:
@@ -38,8 +36,8 @@ def run(avatar, skill_level, total_activities, awareness):
     # Function to calculate final score and place it on the screen
     def calculate():
 
-        # Final grade calculated using skill level and a degree of randomness (0-5%)
-        g_achieved = (g_skill_level*10) + random.randint(0, 6)
+        # Final grade calculated using skill level and a degree of randomness (1-5%)
+        g_achieved = (g_skill_level*10) + random.randint(1, 5)
 
         # The degree of randomness could put the score over 100%, so this ensures it doesn't
         if g_achieved > 100:
@@ -67,7 +65,7 @@ def run(avatar, skill_level, total_activities, awareness):
     profile_image.pack()
 
     # Character's awareness (confidence) determines how close their prediction is to the final grade
-    character_prediction = int(g_awareness*((g_skill_level*10) + random.randint(0, 6)))
+    character_prediction = int(g_awareness*((g_skill_level*10) + random.randint(0, 5)))
 
     # Prediction could technically be over 100%, this ensures it isn't
     if character_prediction > 100:

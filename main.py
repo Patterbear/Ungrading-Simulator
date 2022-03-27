@@ -190,7 +190,10 @@ class Launcher:
         l_time_limit = 20
         l_day_num = result[4]
 
-        l_activities_completed = 6
+        # Number of activities can be determined by how much confidence has increased
+        l_activities_completed = int(abs(((0.5 - l_confidence) / 0.05)))
+
+        # Placeholder values (waiting on other user story)
         l_topic_levels = [4, 5, 3, 1]
 
         loaded_character = Character(l_name, l_avatar, l_gender, l_intelligence, l_confidence, l_level, l_exp, l_activities_completed, l_topic_levels)
