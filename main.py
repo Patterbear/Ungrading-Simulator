@@ -102,19 +102,23 @@ class CreateCharacter:
         self.profile_image.image = profile_image
         self.profile_image.grid(column=2, row=2)
 
+    # Function to save character to the database
+    # Doesn't allow names over 20 characters in length
     def save_character(self):
-        self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
+        if len(self.name_var.get()) > 20:
+            tk.messagebox.showinfo("Warning", message="Character name cannot exceed 20 characters.")
+        else:
+            # save the character into the database
+            self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
+            with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+                c = db.cursor()
+            c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence, confidence)
+                              VALUES(?, ?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.profile_photo, 0, self.character.level, 0, self.character.intelligence, 0.5))
+            db.commit()
+            db.close()
 
-        # save the character into the database
-        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
-            c = db.cursor()
-        c.execute('''INSERT INTO Characters (name, gender, photolink, daynumber, skilllevel, experiencepoints, intelligence, confidence)
-                          VALUES(?, ?, ?, ?, ?, ?, ?, ?);''', (self.character.name, self.character.gender, self.profile_photo, 0, self.character.level, 0, self.character.intelligence, 0.5))
-        db.commit()
-        db.close()
-
-        self.parent.start(self.character)
-        self.done()
+            self.parent.start(self.character)
+            self.done()
 
     def done(self):
         self.master.destroy()
@@ -157,11 +161,18 @@ class Launcher:
         self.app = UngradingSimulator(self.startGame, self, character, time_limit, day_num)
 
     def create_character(self):
-        self.createCharacter = tk.Toplevel(self.master)
-        self.createCharacter.geometry("764x480")
-        self.createCharacter.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
-        self.createCharacter.title("Create Character")
-        self.app = CreateCharacter(self.createCharacter, self, set_multiplier(self.master))
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("SELECT * FROM Characters")
+        result = c.fetchall()
+        if len(result) >= 10:
+            tk.messagebox.showinfo("Warning", message="You cannot exceed 10 save slots. Please delete a save to continue")
+        else:
+            self.createCharacter = tk.Toplevel(self.master)
+            self.createCharacter.geometry("764x480")
+            self.createCharacter.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
+            self.createCharacter.title("Create Character")
+            self.app = CreateCharacter(self.createCharacter, self, set_multiplier(self.master))
 
     # Method to open options window
     def options(self):
@@ -203,7 +214,7 @@ class Launcher:
     # Opens the 'load game' screen
     def load_screen(self):
         self.loadScreen = tk.Toplevel(self.master)
-        self.loadScreen.geometry("1000x500")
+        self.loadScreen.geometry("1000x700")
         self.loadScreen.title("Load Game")
         self.loadScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = LoadScreen(self.loadScreen, self)
@@ -233,7 +244,8 @@ class LoadScreen:
                 tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
                 tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
             tk.Label(self.frame, text="", font=(gameFont, 10)).grid(column=0, row=i+1)
-            tk.Button(self.frame, text="Back", font=(gameFont, 30), command=self.done).grid(column=0, row=i+2)
+            tk.Button(self.frame, text="Delete Save(s)", font=(gameFont, 30), command=self.delete_saves).grid(column=0, row=i + 2)
+            tk.Button(self.frame, text="Back", font=(gameFont, 35), command=self.done).grid(column=1, row=i+2)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
 
@@ -244,6 +256,9 @@ class LoadScreen:
 
     def done(self):
         self.master.destroy()
+
+    def delete_saves(self):
+        print("Delete saves")
 
 
 # The game window/class
