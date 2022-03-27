@@ -188,8 +188,6 @@ class Launcher:
 
         l_time_limit = 20
         l_day_num = result[4]
-        #print(l_day_num)
-        #print(l_confidence)
 
         l_activities_completed = 6
         l_topic_levels = [4, 5, 3, 1]
@@ -254,6 +252,7 @@ class UngradingSimulator:
         self.time_limit = time_limit
         self.day_num = day_num
         self.parent = parent
+        self.things_done = 0
 
 
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, int(15*self.parent.mult)))
@@ -330,10 +329,19 @@ class UngradingSimulator:
 
     # method that when triggered will increase user_level by 1 and notify the user they have levelled up
     def level_up(self):
-        self.character.level += 1
-        self.character.exp_points-=100
-        self.level_up_string = "Good job! You have levelled up to level "+str(self.character.level)
-        self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
+        if self.character.level == 9:
+            self.level_up_string = "Well done, you have reached max level! You are now level " + str(self.character.level+1)
+            self.character.level += 1
+            self.character.exp_points-=100
+            self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
+        elif self.character.level == 10:
+            self.character.exp_points -= 100
+        else:
+            self.character.level += 1
+            self.character.exp_points -= 100
+            self.level_up_string = "Good job! You have levelled up to level "+str(self.character.level)
+            self.level_up_box = tk.messagebox.showinfo("You have levelled up!", message=self.level_up_string)
+
         self.autosave()
 
     def view_character(self):
@@ -364,31 +372,46 @@ class UngradingSimulator:
             self.end_of_sim_scores()
 
         self.days_count_string="Day number: "+str(self.day_num)
+        self.things_done = 0
         self.day_num_label.destroy()
         self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
         self.day_num_label.grid(row=0, column=8, sticky='n')
 
-
+    # Simulates the character studying in-game
+    # Increases xp and number of activities done in the day
+    # If over 4 activities are attempted, a warning appears and stops the user
     def study(self):
-        self.character.exp_points+=50
-        if self.character.exp_points>=100:
-            self.level_up()
+        if self.things_done < 4:
+            self.character.exp_points+=50
+            self.things_done += 1
+            if self.character.exp_points>=100:
+                self.level_up()
+        else:
+            tk.messagebox.showinfo("Daily Limit", message="You can't attempt more than 4 activities a day.")
         self.autosave()
 
+    # Simulates the character attempting activities in-game
+    # Increases xp, confidence (awareness), intelligence and number of activities done in the day
+    # If over 4 activities are attempted, a warning appears and stops the user
     def activities(self):
-        self.character.exp_points += 20
-        self.character.confidence += 0.05
-        intell_inc = round(random(), 2)
-        self.character.intelligence += intell_inc
-        if self.character.exp_points >= 100:
-            self.level_up()
+        if self.things_done < 4:
+            self.things_done += 1
+            self.character.exp_points += 20
+            self.character.confidence += 0.05
+            intell_inc = round(random(), 2)
+            self.character.intelligence += intell_inc
+            if self.character.exp_points >= 100:
+                self.level_up()
 
-        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
-            c = db.cursor()
-        # add the activity to the database here, cannot complete Feedback_page without it
+            with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+                c = db.cursor()
+            # add the activity to the database here, cannot complete Feedback_page without it
             db.commit()
             db.close()
-        self.character.activities_completed += 1
+            self.character.activities_completed += 1
+
+        else:
+            tk.messagebox.showinfo("Daily Limit", message="You can't attempt more than 4 activities a day.")
         self.autosave()
 
     def end_of_sim_scores(self):
