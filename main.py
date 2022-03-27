@@ -366,20 +366,22 @@ class UngradingSimulator:
     def next_day(self):
         if self.day_num != 20:
             self.day_num+=1
+            self.days_count_string = "Day number: " + str(self.day_num)
+            self.things_done = 0
+            self.day_num_label.destroy()
+            self.day_num_label = tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
+            self.day_num_label.grid(row=0, column=8, sticky='n')
             self.autosave()
 
         if self.day_num %5==0:
             intell_inc=round(uniform(1, 4), 2)
             self.character.intelligence+=intell_inc
+
         if self.day_num == self.time_limit:
             self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been " + str(self.time_limit) + " days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
 
-        self.days_count_string="Day number: "+str(self.day_num)
-        self.things_done = 0
-        self.day_num_label.destroy()
-        self.day_num_label= tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
-        self.day_num_label.grid(row=0, column=8, sticky='n')
+
 
     # Simulates the character studying in-game
     # Increases xp and number of activities done in the day
