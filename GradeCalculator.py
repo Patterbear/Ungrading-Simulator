@@ -37,9 +37,13 @@ def run(avatar, skill_level, total_activities, awareness):
 
     # Function to calculate final score and place it on the screen
     def calculate():
-        skill = g_skill_level
-        a_completed = g_total_activities
-        g_achieved= (g_skill_level*10) + random.randint(0, 6)
+
+        # Final grade calculated using skill level and a degree of randomness (0-5%)
+        g_achieved = (g_skill_level*10) + random.randint(0, 6)
+
+        # The degree of randomness could put the score over 100%, so this ensures it doesn't
+        if g_achieved > 100:
+            g_achieved = 100
 
         # Determines colour of grade label based on grade (green for good, yellow for ok and red for bad)
         if g_achieved >= 70:
@@ -55,14 +59,23 @@ def run(avatar, skill_level, total_activities, awareness):
         Button(root, text='End Game', font=(gameFont, 15), command=quit).pack()
         Button(root, text='Get my grade', font=(gameFont, 20), state="disabled").place(x=152, y=330)
 
-
-    heading_label = Label(root, text='Self Assessment', font=(gameFont, 18)).pack()
+    heading_label = Label(root, text='Self Assessment', font=(gameFont, 18))
+    heading_label.pack()
 
     img = ImageTk.PhotoImage(Image.open(g_avatar))
     profile_image = Label(root, image=img)
     profile_image.pack()
 
-    character_dialogue = Label(root, bg='white', font=(gameFont, 18), text='"I reckon I achieved a grade of of ' + str(int(g_awareness*((g_skill_level*10) + random.randint(0, 6)))) + '%"').pack()
+    # Character's awareness (confidence) determines how close their prediction is to the final grade
+    character_prediction = int(g_awareness*((g_skill_level*10) + random.randint(0, 6)))
+
+    # Prediction could technically be over 100%, this ensures it isn't
+    if character_prediction > 100:
+        character_prediction = 100
+
+    character_dialogue = Label(root, bg='white', font=(gameFont, 18), text='"I reckon I achieved a grade of of ' + str(character_prediction) + '%"')
+    character_dialogue.pack()
+
     Label(root, font=(gameFont, 18)).pack()
 
     calculate_button = Button(root, text='Get my grade', font=(gameFont, 20), command=calculate).pack()
