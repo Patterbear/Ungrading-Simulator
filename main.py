@@ -11,6 +11,7 @@ import Feedback_page
 import sqlite3
 from math import floor
 import testing.grade_calculator_tests
+from os import remove
 
 
 # Loads the help page screen
@@ -149,6 +150,7 @@ class Launcher:
         self.eventScreen = None
         self.createCharacter = None
         self.loadScreen = None
+        self.deleteSaves = None
 
         self.frame.pack()
 
@@ -219,6 +221,73 @@ class Launcher:
         self.loadScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = LoadScreen(self.loadScreen, self)
 
+    def delete_saves(self):
+        self.deleteSaves = tk.Toplevel(self.master)
+        self.deleteSaves.geometry("1000x700")
+        self.deleteSaves.title("Delete Save(s)")
+        self.deleteSaves.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
+        self.app = DeleteSaves(self.deleteSaves, self)
+
+
+# Class for the save slot deletion screen
+# Allows the user to delete all or individual save slots
+class DeleteSaves:
+    def __init__(self, master, parent):
+        self.master = master
+        self.parent = parent
+        self.frame = tk.Frame(self.master)
+
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("SELECT * FROM Characters")
+        result = c.fetchall()
+
+        # Displays all save files
+        for i in range(0, len(result)):
+            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
+        tk.Label(self.frame, text="", font=(gameFont, 30)).grid(column=0, row=i+1)
+
+        # Creates drop down containing all save files
+        self.save_var = StringVar(self.frame)
+        save_list = ['All']
+        for i in range(len(result)):
+            save_list.append("Save "+ str(result[i][0]))
+        self.save_var.set(save_list[1])
+        self.save_input = tk.OptionMenu(self.frame, self.save_var, *save_list)
+        self.save_input.config(font=(gameFont, 20))
+        menu = self.master.nametowidget(self.save_input.menuname)
+        menu.config(font=(gameFont, 20))
+        self.save_input.grid(column=0, row=i+1)
+
+        # Button to delete individual or all save slots
+        self.delete_save_button = tk.Button(self.frame, font=(gameFont, 25), command=lambda: self.delete_save(self.save_var.get()), text="Delete")
+        self.delete_save_button.grid(column=1, row=i+1)
+
+        self.frame.grid(row=0, column=0, sticky="nsew")
+
+    # Function to delete all or individual save slots
+    def delete_save(self, save):
+
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+
+        # If 'All' is selected, all records are deleted
+        # Deletes the file then sets up the db again to reset auto-increment field
+        if save == 'All':
+            remove("assets/databases/SaveSlots.db")
+            db_setup()
+
+        # Deletes specific save slot
+        else:
+            c.execute("DELETE FROM Characters WHERE id = ?", (int(save[5:]),))
+            db.commit()
+            db.close()
+
+
+
+        self.master.destroy()
+        self.parent.load_screen()
+
 
 # Class for the load game screen
 # Allows the user to choose an existing save file and continue
@@ -228,6 +297,8 @@ class LoadScreen:
         self.frame = tk.Frame(self.master)
         self.parent = parent
         self.save_list = None
+        self.deleteScreen = None
+        self.app = None
 
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
@@ -258,7 +329,8 @@ class LoadScreen:
         self.master.destroy()
 
     def delete_saves(self):
-        print("Delete saves")
+        self.master.destroy()
+        self.parent.delete_saves()
 
 
 # The game window/class
@@ -273,12 +345,11 @@ class UngradingSimulator:
         self.parent = parent
         self.things_done = 0
 
-
         self.testEventButton = tk.Button(self.frame, text="Test Event", command=self.event, font=(gameFont, int(15*self.parent.mult)))
-        #self.testEventButton.grid(row=1, column=8)
+        # self.testEventButton.grid(row=1, column=8)
 
         self.level_up_button = tk.Button(self.frame, text="Level Up test", command=self.level_up, font=(gameFont, int(15*mult)))
-        #self.level_up_button.grid(row=2, column=8)
+        # self.level_up_button.grid(row=2, column=8)
 
         self.view_character_button = tk.Button(self.frame, text="View Profile", command=self.view_character, font=(gameFont, int(30*mult)))
         self.view_character_button.grid(column=0, row=0, padx=70)
@@ -395,8 +466,6 @@ class UngradingSimulator:
         if self.day_num == self.time_limit:
             self.time_limit_box= tk.messagebox.showinfo("Course is finished", message="It has been " + str(self.time_limit) + " days and your Ungrading course has been completed. Press OK to see your score")
             self.end_of_sim_scores()
-
-
 
     # Simulates the character studying in-game
     # Increases xp and number of activities done in the day

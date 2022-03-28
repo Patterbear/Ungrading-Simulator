@@ -29,6 +29,7 @@ def run(avatar, skill_level, awareness):
     root = tkinter.Toplevel()
     root.title('Grade Calculator')
     root.geometry('500x600')
+    root.iconphoto(False, PhotoImage(file='app_icon.png'))
 
     # Function to close the screen
     def close():
