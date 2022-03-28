@@ -1,0 +1,7 @@
+Ungrading is the process of leaving out grades, but it is not a method
+in which teachers stop evaluating students; instead, they are constantly 
+evaluating their students progress by giving feedback or tips to help 
+them improve.
+
+The simulator will allow students to experience upgrading while learning 
+the basics of upgrading. 

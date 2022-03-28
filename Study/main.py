@@ -6,14 +6,17 @@ root.title('Study')
 
 Whichpage = 0
 
+text_file1 = open("des.txt", 'r')
+description = text_file1.read()
+
 ButtonCanvas = Canvas(root, width=50, height=50)
 ButtonCanvas.grid(row=0, column=0, padx=0)
 
 Content_welcome = Canvas(root, width=1000, height=550, bg="white", bd=1, highlightthickness=1, highlightbackground='black')
 Content_welcome.grid(row=0, column=1, padx=40, pady=0)
 
-Content_welcome.create_text(500,250, text="Welcome to Ungrading", font=('DIN Condensed','25','bold'))
-Content_welcome.create_text(500, 270, text="Description")
+Content_welcome.create_text(500,200, text="Welcome to Ungrading", font=('DIN Condensed','25','bold'))
+Content_welcome.create_text(500, 320, text=description)
 
 Content_T1 = Canvas(root, width=1000, height=550, bg="white", bd=1, highlightthickness=1, highlightbackground='black')
 Content_T2 = Canvas(root, width=1000, height=550, bg="white", bd=1, highlightthickness=1, highlightbackground='black')
@@ -39,6 +42,9 @@ def t1():
     Content_T1.create_text(500,20, text="This is topic 1", font=('DIN Condensed','25','bold'))
     Content_T1.create_text(60, 40, text="This is topic 1")
 
+    done_button.grid(row=0, column=0, pady=0)
+    undone_button.grid(row=0, column=1, pady=0, padx=10)
+
 def t2():
 
     global Whichpage
@@ -54,6 +60,8 @@ def t2():
     Content_T2.create_text(500, 20, text="This is topic 2", font=('DIN Condensed', '25', 'bold'))
     Content_T2.create_text(60, 40, text="This is topic 2")
 
+    done_button.grid(row=0, column=0, pady=0)
+    undone_button.grid(row=0, column=1, pady=0, padx=10)
 
 def t3():
 
@@ -70,6 +78,8 @@ def t3():
     Content_T3.create_text(500, 20, text="This is topic 3", font=('DIN Condensed', '25', 'bold'))
     Content_T3.create_text(60, 40, text="This is topic 3")
 
+    done_button.grid(row=0, column=0, pady=0)
+    undone_button.grid(row=0, column=1, pady=0, padx=10)
 
 def t4():
     global Whichpage
@@ -85,6 +95,8 @@ def t4():
     Content_T4.create_text(500, 20, text="This is topic 4", font=('DIN Condensed', '25', 'bold'))
     Content_T4.create_text(60, 40, text="This is topic 4")
 
+    done_button.grid(row=0, column=0, pady=0)
+    undone_button.grid(row=0, column=1, pady=0, padx=10)
 
 
 def t5():
@@ -100,6 +112,9 @@ def t5():
 
     Content_T5.create_text(500, 20, text="This is topic 5", font=('DIN Condensed', '25', 'bold'))
     Content_T5.create_text(60, 40, text="This is topic 5")
+
+    done_button.grid(row=0, column=0, pady=0)
+    undone_button.grid(row=0, column=1, pady=0, padx=10)
 
 done_colour = '#6fa5e6'
 
@@ -141,10 +156,6 @@ def undone_button():
 
     method_Undone(y)
 
-
-
-
-
 Space1 = Label(ButtonCanvas, text="")
 Space1.grid(row=0, column=0, pady=0, padx=150)
 
@@ -170,12 +181,11 @@ topic5_button.grid(row=5, column=0, pady=35)
 
 done_button = Button(Done, text="Done", width=20, height=2, highlightbackground=done_colour, command=done_button);
 done_button.config(font=('DIN Condensed','25','bold'))
-done_button.grid(row=0, column=0, pady=0)
+
 
 undone_button = Button(Done, text="Incomplete", width=20, height=2, highlightbackground=done_colour, command=undone_button);
 undone_button.config(font=('DIN Condensed','25','bold'))
-undone_button.grid(row=0, column=1, pady=0, padx=10)
 
-topic1.mainloop()
+
+
 root.mainloop()
-ButtonCanvas.mainloop()
