@@ -216,14 +216,14 @@ class Launcher:
     # Opens the 'load game' screen
     def load_screen(self):
         self.loadScreen = tk.Toplevel(self.master)
-        self.loadScreen.geometry("1000x700")
+        self.loadScreen.geometry("1100x720")
         self.loadScreen.title("Load Game")
         self.loadScreen.iconphoto(False, tk.PhotoImage(file='app_icon.png'))  # Sets window icon
         self.app = LoadScreen(self.loadScreen, self)
 
     def delete_saves(self):
         self.deleteSaves = tk.Toplevel(self.master)
-        self.deleteSaves.geometry("1000x700")
+        self.deleteSaves.geometry("1000x600")
         self.deleteSaves.title("Delete Save(s)")
         self.deleteSaves.iconphoto(False, tk.PhotoImage(file='app_icon.png'))
         self.app = DeleteSaves(self.deleteSaves, self)
@@ -244,8 +244,8 @@ class DeleteSaves:
 
         # Displays all save files
         for i in range(0, len(result)):
-            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
-        tk.Label(self.frame, text="", font=(gameFont, 30)).grid(column=0, row=i+1)
+            tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w", columnspan=3)
+        tk.Label(self.frame, text="", font=(gameFont, 50)).grid(column=0, row=i+1)
 
         # Creates drop down containing all save files
         self.save_var = StringVar(self.frame)
@@ -254,14 +254,17 @@ class DeleteSaves:
             save_list.append("Save "+ str(result[i][0]))
         self.save_var.set(save_list[1])
         self.save_input = tk.OptionMenu(self.frame, self.save_var, *save_list)
-        self.save_input.config(font=(gameFont, 20))
+        self.save_input.config(font=(gameFont, 30))
         menu = self.master.nametowidget(self.save_input.menuname)
-        menu.config(font=(gameFont, 20))
+        menu.config(font=(gameFont, 30))
         self.save_input.grid(column=0, row=i+1)
 
         # Button to delete individual or all save slots
-        self.delete_save_button = tk.Button(self.frame, font=(gameFont, 25), command=lambda: self.delete_save(self.save_var.get()), text="Delete")
-        self.delete_save_button.grid(column=1, row=i+1)
+        self.delete_save_button = tk.Button(self.frame, font=(gameFont, 30), command=lambda: self.delete_save(self.save_var.get()), text="Delete")
+        self.delete_save_button.grid(column=1, row=i+1, sticky='w')
+
+        self.back_button = tk.Button(self.frame, font=(gameFont, 30), command=self.back, text="Back")
+        self.back_button.grid(column=2, row=i+1)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
 
@@ -283,8 +286,10 @@ class DeleteSaves:
             db.commit()
             db.close()
 
+        self.back()
 
-
+    # Function to go back to the load game screen
+    def back(self):
         self.master.destroy()
         self.parent.load_screen()
 
@@ -315,7 +320,7 @@ class LoadScreen:
                 tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
                 tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
             tk.Label(self.frame, text="", font=(gameFont, 10)).grid(column=0, row=i+1)
-            tk.Button(self.frame, text="Delete Save(s)", font=(gameFont, 30), command=self.delete_saves).grid(column=0, row=i + 2)
+            tk.Button(self.frame, text="Delete Save(s)", font=(gameFont, 35), command=self.delete_saves).grid(column=0, row=i + 2)
             tk.Button(self.frame, text="Back", font=(gameFont, 35), command=self.done).grid(column=1, row=i+2)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
