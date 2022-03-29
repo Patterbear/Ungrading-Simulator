@@ -11,6 +11,7 @@ import sqlite3
 from math import floor
 import testing.grade_calculator_tests
 from os import remove
+import Activities.activities
 
 
 # Loads the help page screen
@@ -340,18 +341,21 @@ class LoadScreen:
             save_list = []
             for i in range(len(result)):
                 save_list.append("Save " + str(result[i][0]))
-            self.save_var.set(save_list[1])
+            self.save_var.set(save_list[0])
             self.save_input = tk.OptionMenu(self.frame, self.save_var, *save_list)
             self.save_input.config(font=(gameFont, 30))
             menu = self.master.nametowidget(self.save_input.menuname)
             menu.config(font=(gameFont, 30))
             self.save_input.grid(column=2, row=i+2)
 
-            # Button to delete individual or all save slots
+            # Button to load chosen save slot
             self.load_save_button = tk.Button(self.frame, font=(gameFont, 35), command=lambda: self.load_character(self.save_var.get()), text="Load")
             self.load_save_button.grid(column=3, row=i + 2, sticky='w')
 
+            # Button to take user to save file deletion screen
             tk.Button(self.frame, text="Delete Save(s)", font=(gameFont, 20), command=self.delete_saves).grid(column=0, row=i+3, sticky='s')
+
+            # Button to return user to home screen
             tk.Button(self.frame, text="Back", font=(gameFont, 35), command=self.done).grid(column=0, row=i+2)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
@@ -528,8 +532,10 @@ class UngradingSimulator:
             self.character.confidence += 0.05
             intell_inc = round(random(), 2)
             self.character.intelligence += intell_inc
+
             if self.character.exp_points >= 100:
                 self.level_up()
+            # Activities.activities.run() # Feature does not meet our definition of done
 
             with sqlite3.connect("assets/databases/SaveSlots.db") as db:
                 c = db.cursor()
