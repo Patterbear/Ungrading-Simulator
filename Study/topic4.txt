@@ -1,0 +1,27 @@
+Creating a project schedule:
+
+
+1. Create a Work Breakdown Structure (WBS)
+2. Estimate the length of tasks in the WBS
+3. Identify dependencies between tasks in the WBS
+4. Create a Gantt Chart using this data
+
+
+- A work breakdown Structure is a hierarchical decomposition of the work to be executed by a project
+team, To identify all of the tasks required to complete a project
+
+
+- We can't know how long a task will take. But we need some idea. So we estimate it. An Estimate is
+a prediction of how long a task will take.
+
+
+- There are four types of dependencies you can create:
+
+	1 - Finish to start: Task B can't start before task A is finished.
+	2 - Start to start: Task B can't start before task A starts.
+	3 - Finish to finish: Task B can't finish before task A is finished.
+	4 - Start to finish: Task A can't finish before Task B starts
+
+
+- Create a Gantt Charts which is a visual illustration of the project schedule. Most commonly used 
+software is known as GanttProject

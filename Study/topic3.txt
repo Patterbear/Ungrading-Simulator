@@ -1,0 +1,23 @@
+Every project operates within certain boundaries called constraints:
+
+
+1 - Scope
+e is what the project is trying to achieve, it entails all the work involved in delivering the 
+project outcomes and the processes used to produce them; it is the reason and the purpose of the 
+project.
+
+2 - Time
+Schedule is defined as the time to complete the project. Proper control of schedule requires the 
+careful identification of tasks to be performed, an accurate estimation of their durations, the 
+sequence in which they are going to be done, and how people and other resources are allocated
+
+3 - Cost
+The cost of the project, often dubbed the project’s budget, comprises all of the financial resources 
+needed to complete the project on time, in its predetermined scope. Keep in mind that cost does not 
+just mean money for materials — it encompasses costs for labor, vendors, quality control, and other 
+factors, as well
+
+4 - Quality
+The quality constraint focuses on the characteristics of the deliverable or product. In general, the 
+quality of the project will be evaluated by how closely the outcome matches the expectations set in 
+the planning stages.  

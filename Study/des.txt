@@ -1,7 +1,10 @@
-Ungrading is the process of leaving out grades, but it is not a method
-in which teachers stop evaluating students; instead, they are constantly 
-evaluating their students progress by giving feedback or tips to help 
-them improve.
+In this course we will teach you fundamentals of Project management. This small course will cover the 
+Following topics.
 
-The simulator will allow students to experience upgrading while learning 
-the basics of upgrading. 
+Topic 1 - What is a project?
+Topic 2 - Project life cycle
+Topic 3 - Project Constraints
+Topic 4 - Project Scheduling
+Topic 5 - Project Resourcing/Costs
+
+This is a 30 day course, which will be used to demonstrate upgrading.

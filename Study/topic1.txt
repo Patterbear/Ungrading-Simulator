@@ -1,0 +1,20 @@
+A project is defined as a sequence of tasks that must be completed to attain a certain outcome. 
+According to the Project Management Institute (PMI), the term Project refers to ” to any temporary
+endeavour with a definite beginning and end”. Depending on its complexity, it can be managed by a 
+single person or hundreds.
+
+Characteristics of a project:
+
+1 - Temporary
+There are projects that last several years but a project cannot go on forever. It needs to have a 
+clear beginning, a definite end, and an overview of what happens in between
+
+2 - Unique
+Every project is unique, producing something that did not previously exist. A project is a one-time,
+once-off activity, never to be repeated exactly the same way again
+
+3 - Delivers results
+It creates a product, service or result, often based on agreed requirements.
+
+4 - not small
+Requires non-trivial effort, often of more than one person

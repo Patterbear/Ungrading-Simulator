@@ -1,0 +1,27 @@
+
+
+Allocating resources to tasks:
+
+Resource Utilisation: 
+How busy a resource is during a project. We aim to have all resources, including people, at 100% or 
+less utilisation throughout the project.
+
+How do we fix over-utilisation:
+Re-scheduling - Moving/Delaying tasks or allocate the task to someone else who can do it
+
+
+
+Project Costs:
+
+There are 2 types of project costs, DIRECT and INDIRECT.
+
+- On most project the biggest direct costs is employee salaries. Other direct costs are equipment and
+materials required for the project.
+
+- On most project the biggest Indirect costs is Utility costs(electricity, telephone, broadband,
+water etc). Other indirect costs are Insurance and security cost.
+
+
+The things used to complete a project including people and
+materials are called "RESOURCES"
+

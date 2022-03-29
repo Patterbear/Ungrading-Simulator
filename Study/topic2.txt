@@ -1,0 +1,27 @@
+Often, projects are divided into 4 project phases each of which comes with a distinct set 
+of tasks, objectives, and a particular deadline. Dividing a project into different phases 
+enables teams to stay on track throughout their entire life cycle.
+
+
+1 - Initiation
+The first phase in a project’s life cycle is called project initiation. Here, a project
+officially launches. It is named, and a broad plan is defined. Goals are identified, along 
+with the project’s constraints, risks, and shareholders. At this point, shareholders decide 
+if they want to commit to the project.
+
+2 - Planning
+A roadmap that will guide teams from creating a project plan throughout the project’s 
+execution and closure phases is developed comprehensively during the planning stage. 
+Deadlines must be set, and resources must be allotted. Breaking down tasks into smaller, 
+manageable activities makes it easier to manage project risks, costs, quality, time, and so 
+on.
+
+3 - Execution
+The project plan is implemented during the project execution phase. At this point, teams 
+will work on the deliverables to ensure that the project meets the necessary requirements.
+
+4 - Closure
+The final phase of the project management life cycle known as the project closure phase 
+isn’t as simple as delivering the output itself. Project managers have to record all 
+deliverables, organise documents in a centralised location, and hand over the project to the 
+client.
