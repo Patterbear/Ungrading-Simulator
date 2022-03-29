@@ -1,6 +1,5 @@
 Every project operates within certain boundaries called constraints:
 
-
 1 - Scope
 e is what the project is trying to achieve, it entails all the work involved in delivering the 
 project outcomes and the processes used to produce them; it is the reason and the purpose of the 
@@ -21,3 +20,6 @@ factors, as well
 The quality constraint focuses on the characteristics of the deliverable or product. In general, the 
 quality of the project will be evaluated by how closely the outcome matches the expectations set in 
 the planning stages.  
+
+All the constraints are equally important, if one of them is changed, it is likely the other 
+constraints will have to be changed.
