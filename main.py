@@ -497,7 +497,7 @@ class UngradingSimulator:
             self.days_count_string = "Day number: " + str(self.day_num)
             self.things_done = 0
             self.day_num_label.destroy()
-            self.day_num_label = tk.Label(self.frame, text=self.days_count_string, font=(gameFont, 35))
+            self.day_num_label = tk.Label(self.frame, text=self.days_count_string, font=(gameFont, int(35*mult)))
             self.day_num_label.grid(row=0, column=8, sticky='n')
             self.autosave()
 
