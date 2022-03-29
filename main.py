@@ -7,7 +7,6 @@ import GradeCalculator
 import Submission_File
 import CharacterCustomisation.cc
 import Feedback_page
-#from PIL import ImageTk, Image
 import sqlite3
 from math import floor
 import testing.grade_calculator_tests
@@ -93,6 +92,7 @@ class CreateCharacter:
 
         self.frame.pack()
 
+    # Function to open the character customisation screen and display the customised avatar
     def customise_avatar(self):
 
         CharacterCustomisation.cc.run()
@@ -105,9 +105,24 @@ class CreateCharacter:
 
     # Function to save character to the database
     # Doesn't allow names over 20 characters in length
+    # Doesn't allow duplicate character names
     def save_character(self):
+
+        # Creates a list of existing profiles
+        with sqlite3.connect("assets/databases/SaveSlots.db") as db:
+            c = db.cursor()
+        c.execute("SELECT * FROM Characters")
+        profiles = []
+        saves = c.fetchall()
+        for i in range(len(saves)):
+            profiles.append(saves[i][1])
+
         if len(self.name_var.get()) > 20:
             tk.messagebox.showinfo("Warning", message="Character name cannot exceed 20 characters.")
+        elif self.name_var.get() in profiles:
+            tk.messagebox.showinfo("Warning", message="Character name has been taken.")
+        elif self.name_var.get() == "":
+            tk.messagebox.showinfo("Warning", message="Character name cannot be empty.")
         else:
             # save the character into the database
             self.character = Character(self.name_var.get(), self.profile_photo, self.gender_var.get())  # THIS WORKS 12/02
@@ -189,7 +204,7 @@ class Launcher:
 
         with sqlite3.connect("assets/databases/SaveSlots.db") as db:
             c = db.cursor()
-        c.execute("SELECT * FROM Characters WHERE name = ?", (g_name,))
+        c.execute("SELECT * FROM Characters WHERE id = ?", (g_name,))
         result = c.fetchall()[0]
 
         l_name = result[1]
@@ -317,18 +332,36 @@ class LoadScreen:
 
         else:
             for i in range(0, len(result)):
-                tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w")
-                tk.Button(self.frame, text="Load", command=lambda: self.load_character(result[i][1]), font=(gameFont, "30")).grid(column=1, row=i)
+                tk.Label(self.frame, text="Save " + str(result[i][0]) + ": " + result[i][1] + " (Level " + str(result[i][5]) + ") - Day " + str(result[i][4]), font=(gameFont, 30)).grid(column=0, row=i, padx=25, sticky="w", columnspan=3)
             tk.Label(self.frame, text="", font=(gameFont, 10)).grid(column=0, row=i+1)
-            tk.Button(self.frame, text="Delete Save(s)", font=(gameFont, 35), command=self.delete_saves).grid(column=0, row=i + 2)
-            tk.Button(self.frame, text="Back", font=(gameFont, 35), command=self.done).grid(column=1, row=i+2)
+
+            # Creates drop down containing all save files
+            self.save_var = StringVar(self.frame)
+            save_list = []
+            for i in range(len(result)):
+                save_list.append("Save " + str(result[i][0]))
+            self.save_var.set(save_list[1])
+            self.save_input = tk.OptionMenu(self.frame, self.save_var, *save_list)
+            self.save_input.config(font=(gameFont, 30))
+            menu = self.master.nametowidget(self.save_input.menuname)
+            menu.config(font=(gameFont, 30))
+            self.save_input.grid(column=2, row=i+2)
+
+            # Button to delete individual or all save slots
+            self.load_save_button = tk.Button(self.frame, font=(gameFont, 35), command=lambda: self.load_character(self.save_var.get()), text="Load")
+            self.load_save_button.grid(column=3, row=i + 2, sticky='w')
+
+            tk.Button(self.frame, text="Delete Save(s)", font=(gameFont, 20), command=self.delete_saves).grid(column=0, row=i+3, sticky='s')
+            tk.Button(self.frame, text="Back", font=(gameFont, 35), command=self.done).grid(column=0, row=i+2)
 
         self.frame.grid(row=0, column=0, sticky="nsew")
 
     def load_character(self, slot_name):
 
+        slot_id = int(slot_name[5:])
+
         self.master.destroy()
-        self.parent.load_game(slot_name)
+        self.parent.load_game(slot_id)
 
     def done(self):
         self.master.destroy()
@@ -634,6 +667,8 @@ def main():
     root.mainloop()
 
 
+# Function to set up the database
+# Uses sqlite3 to create a .db file with 4 tables
 def db_setup():
     with sqlite3.connect("assets/databases/SaveSlots.db") as db:
         c = db.cursor()
@@ -758,5 +793,3 @@ if __name__ == "__main__":
     gameFont = set_game_font()
 
     main()
-
-    #grade_calculator_testing()
