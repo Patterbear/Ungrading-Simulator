@@ -530,6 +530,8 @@ class UngradingSimulator:
             self.things_done += 1
             self.character.exp_points += 20
             self.character.confidence += 0.05
+            if self.character.confidence > 1.0:
+                self.character.confidence = 1.0
             intell_inc = round(random(), 2)
             self.character.intelligence += intell_inc
 
