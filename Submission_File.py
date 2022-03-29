@@ -1,3 +1,4 @@
+import random
 import tkinter
 from cgitb import text
 from distutils import command
@@ -7,13 +8,13 @@ import tkinter.font as font
 from tkinter import messagebox
 from turtle import width
 
+ # This code here runs the python file. This is an interace for the user to select the files and randomly provide feedback on their activity.
 def run():
-    # creating a window
     main = tkinter.Toplevel()
     main.title("Ungrading Simulator")
     #main.iconbitmap("Images/app_icon.png")
     main.geometry('800x800')
-
+# Here I have introduced some of the fonts, which is used in the simulator.
     font1 = font.Font(family='Calibri Bold', size=25)
     font2 = font.Font(family='Calibri Bold', size=14)
     font3 = font.Font(family="Arial Bold", size=20)
@@ -27,27 +28,34 @@ def run():
     bframe = Frame(main)
     bframe.pack(side=BOTTOM)
 
+    #Disable button
+    def disable_btn ():
+        submit_btn['text'] = 'Submitted'
+        submit_btn['state'] = 'disabled'
+    #Random feedback
+    def pick():
+        mylist = ["Thank you for submitting. You have been awarded 73 marks",
+                "Thank you for submitting. You have been awarded 47 marks",
+                "Thank you for submitting. You have been awarded 65 marks",
+                "Thank you for submitting. You have been awarded 78 marks",
+                "Thank you for submitting. You have been awarded 40 marks",
+                "Thank you for submitting. You have been awarded 82 marks",
+                "Thank you for submitting. You have been awarded 70 marks"
 
-    # Commands
-    # Print
-    def sub_message():
-        return messagebox.askokcancel("Thanks for submitting Activity 1", "You have shown good understanding in Activity 1. Therefore, you are awarded 73% in Activity 1")
+                ]
+        o_num = len(mylist) - 1
+        rand = random.randint(0, o_num)
 
-
-
-    # def take_input1():
-    #     inputValue = name_input.get("1.0",END)
-    #     print(inputValue)
-
-
+        testLabel = Label(main, text=mylist[rand])
+        testLabel.place(x=180, y= 700)
     # CREATING WIDGETS/BUTTONS
     submit_btn = Button(bframe, text='Submit', fg='Black', width=20, height=1, font=font2, borderwidth=2,
-                        command=sub_message)
+                        command=lambda:[pick(), disable_btn()])
     submit_btn.pack(side=RIGHT)
     cancel_btn = Button(bframe, text='Close', fg='Black', width=20, height=1, font=font2, borderwidth=2, command=main.quit)
     cancel_btn.pack(side=RIGHT)
-    main_btn= Button (bframe, text= "Main Menu", fg="Black", width=20, height=1, font= font2, borderwidth=2, command= main.quit)
-    main_btn.pack(side=RIGHT)
+
+
     # Name Labels
     name_label = Label(main, text="Full Name", font=font2)
     name_label.place(x=40, y=60)
@@ -67,10 +75,10 @@ def run():
 
 
     options = ["Activity 1",
-               "Activity 2",
-               "Activity 3",
-               "Activity 4",
-               "Activity 5"]
+                "Activity 2",
+                "Activity 3",
+                "Activity 4",
+                "Activity 5"]
 
     opt = StringVar()
     opt.set("No file chosen")
@@ -87,7 +95,7 @@ def run():
     comment_label = Label(main, text="Comments", font=font2)
     comment_label.place(x=40, y=300)
 
-
+    #Input from user in the comment box
     def take_input():
         inputValue = comment_box.get("1.0", "end-1c")
         print(inputValue)
@@ -95,11 +103,8 @@ def run():
 
     comment_box = Text(main, height=10, width=80)
     comment_box.place(x=40, y=340)
-
+    #click button to show the input on terminal
     click_btn = Button(main, height=1, width=10, text="Click", command=lambda: take_input())
     click_btn.pack()
     click_btn.place(x=40, y=520)
-
-
-
     mainloop()
