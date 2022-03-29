@@ -29,7 +29,7 @@ def main():
         return messagebox.askokcancel('Feedback','Feedback will allow the student to improve on what they have learnt. If the feedback is acted upon correctly, the student will get a higher grade and will develop their learning further')
 
     def toggle_win():
-        f1=Frame(w,width=300,height=500,bg='#12c4c0')
+        f1=Frame(w,width=400,height=500,bg='#12c4c0')
         f1.place(x=0,y=0)
 
 
