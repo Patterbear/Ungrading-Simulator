@@ -57,7 +57,9 @@ def run(avatar, skill_level, awareness):
         Label(root, text="You scored: " + str(g_achieved) + "%", font=(gameFont, 40), bg=score_colour).pack()#place(x=190,y=275)
         Label(root, font=(gameFont, 18)).pack()
         Button(root, text='End Game', font=(gameFont, 15), command=close).pack()
-        Button(root, text='Get my grade', font=(gameFont, 20), state="disabled").place(x=152, y=330)
+
+        # Greyed out button to prevent user from trying to calculate their grade again
+        Button(root, text='Get my grade', font=(gameFont, 20), state="disabled").place(x=calculate_button.winfo_x(), y=calculate_button.winfo_y())
 
     heading_label = Label(root, text='Self Assessment', font=(gameFont, 18))
     heading_label.pack()
