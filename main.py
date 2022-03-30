@@ -12,6 +12,7 @@ from math import floor
 import testing.grade_calculator_tests
 from os import remove
 import Activities.activities
+import Study.study
 
 
 # Loads the help page screen
@@ -518,6 +519,7 @@ class UngradingSimulator:
             self.things_done += 1
             if self.character.exp_points>=100:
                 self.level_up()
+            Study.study.run()
         else:
             tk.messagebox.showinfo("Daily Limit", message="You can't attempt more than 4 activities a day.")
         self.autosave()
@@ -537,7 +539,7 @@ class UngradingSimulator:
 
             if self.character.exp_points >= 100:
                 self.level_up()
-            # Activities.activities.run() # Feature does not meet our definition of done
+            Activities.activities.run()
 
             with sqlite3.connect("assets/databases/SaveSlots.db") as db:
                 c = db.cursor()
