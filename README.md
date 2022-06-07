@@ -3,6 +3,6 @@
 ## To do this:
 
 ### 1. Open the terminal and navigate to the directory you want to save the program to. (e.g. 'cd myrepos')
-### 2. Git clone the repository ('git clone https://campus.cs.le.ac.uk/gitlab/co2201-2022/group-04')
+### 2. Git clone the repository ('git clone https://github.com/Patterbear/Ungrading-Simulator.git')
 ### 2. Navigate into the folder you cloned from the gitlab repo (e.g. 'cd myrepos/group-04')
 ### 3. Type 'bash run.sh' in to the command line.
